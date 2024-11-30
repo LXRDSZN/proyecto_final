@@ -26,19 +26,65 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        Panel_login = new javax.swing.JPanel();
+        usuario_label = new javax.swing.JLabel();
+        boton_iniciar_sesion = new javax.swing.JButton();
+        contraseña_label = new javax.swing.JLabel();
+        usuario_texto = new javax.swing.JTextField();
+        contraseña_texto = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+        Panel_login.setBackground(new java.awt.Color(255, 255, 255));
+        Panel_login.setForeground(new java.awt.Color(255, 255, 255));
+
+        usuario_label.setForeground(new java.awt.Color(0, 0, 0));
+        usuario_label.setText("Usuario");
+
+        boton_iniciar_sesion.setBackground(new java.awt.Color(102, 153, 255));
+        boton_iniciar_sesion.setForeground(new java.awt.Color(0, 0, 0));
+        boton_iniciar_sesion.setText("Iniciar sesion");
+        boton_iniciar_sesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton_iniciar_sesionActionPerformed(evt);
+            }
+        });
+
+        contraseña_label.setForeground(new java.awt.Color(0, 0, 0));
+        contraseña_label.setText("Contraseña");
+
+        javax.swing.GroupLayout Panel_loginLayout = new javax.swing.GroupLayout(Panel_login);
+        Panel_login.setLayout(Panel_loginLayout);
+        Panel_loginLayout.setHorizontalGroup(
+            Panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Panel_loginLayout.createSequentialGroup()
+                .addGroup(Panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Panel_loginLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(Panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(contraseña_label)
+                            .addComponent(usuario_texto, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                            .addComponent(contraseña_texto)
+                            .addComponent(usuario_label, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(Panel_loginLayout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(boton_iniciar_sesion, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(519, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 502, Short.MAX_VALUE)
+        Panel_loginLayout.setVerticalGroup(
+            Panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Panel_loginLayout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(usuario_label, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(usuario_texto, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(contraseña_label)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(contraseña_texto, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(boton_iniciar_sesion, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -46,18 +92,20 @@ public class Login extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Panel_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(Panel_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void boton_iniciar_sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_iniciar_sesionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boton_iniciar_sesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -95,6 +143,11 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel Panel_login;
+    private javax.swing.JButton boton_iniciar_sesion;
+    private javax.swing.JLabel contraseña_label;
+    private javax.swing.JTextField contraseña_texto;
+    private javax.swing.JLabel usuario_label;
+    private javax.swing.JTextField usuario_texto;
     // End of variables declaration//GEN-END:variables
 }
