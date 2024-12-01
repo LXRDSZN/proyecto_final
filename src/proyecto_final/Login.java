@@ -1,6 +1,9 @@
 package proyecto_final;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class Login extends javax.swing.JFrame {
     //Variables para el inicio de sesion
@@ -24,6 +27,8 @@ public class Login extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         contraseña_texto = new javax.swing.JTextField();
         boton_iniciar_sesion = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,11 +90,36 @@ public class Login extends javax.swing.JFrame {
         });
         Panel_login.add(boton_iniciar_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 178, 38));
 
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto_final/Images/examen.png"))); // NOI18N
+        jLabel2.setText("jLabel2");
+        jLabel2.setFocusable(false);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
+        );
+
+        Panel_login.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 360, 380));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Panel_login, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+            .addComponent(Panel_login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +146,17 @@ public class Login extends javax.swing.JFrame {
         Panel PanelPrincipal = new Panel();
         dispose();
         PanelPrincipal.setVisible(true);
-        
+         // Crear un temporizador que muestre el mensaje después de 2 segundos
+        Timer timer = new Timer(500, new ActionListener() {
+            @Override
+        public void actionPerformed(ActionEvent e) {
+            // Mostrar el mensaje después de que transcurran 2 segundos
+            JOptionPane.showMessageDialog(PanelPrincipal, "Selecciona las materias y contesta las preguntas correctamente", "Instrucciones", JOptionPane.INFORMATION_MESSAGE);
+        }
+    });
+    
+    timer.setRepeats(false); // Solo se ejecutará una vez
+    timer.start(); // Iniciar el temporizador
     } else {
         intentosFallidos++;
         if (intentosFallidos >= 3) {
@@ -173,6 +213,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton boton_iniciar_sesion;
     private javax.swing.JLabel contraseña_label;
     private javax.swing.JTextField contraseña_texto;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel usuario_label;
