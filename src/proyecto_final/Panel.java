@@ -21,6 +21,7 @@ public class Panel extends javax.swing.JFrame {
     
     
     private int puntajeEspanol = 0;
+    private int puntajeMatematicas = 0;
 
     
 
@@ -98,6 +99,7 @@ public class Panel extends javax.swing.JFrame {
             if (esCorrecta) {
                 etiquetaRespuesta.setForeground(Color.GREEN); // Cambia a verde
                 puntajeEspanol++;
+                puntajeMatematicas++;
             } else {
                 etiquetaRespuesta.setForeground(Color.RED); // Cambia a rojo
             }
@@ -111,6 +113,7 @@ public class Panel extends javax.swing.JFrame {
         if (respuestaUsuario.equalsIgnoreCase(respuestaCorrecta)) { // Compara ignorando mayúsculas y minúsculas
             etiquetaRespuesta.setForeground(Color.GREEN); // Cambia el texto a verde
             puntajeEspanol++;
+            puntajeMatematicas++;
     } else {
         etiquetaRespuesta.setForeground(Color.RED); // Cambia el texto a rojo
     }
@@ -189,30 +192,32 @@ public class Panel extends javax.swing.JFrame {
         Matematicas = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
+        matP1 = new javax.swing.JLabel();
+        matP2 = new javax.swing.JLabel();
+        matP4 = new javax.swing.JLabel();
+        matP3 = new javax.swing.JLabel();
+        matP5 = new javax.swing.JLabel();
+        matP7 = new javax.swing.JLabel();
+        matP6 = new javax.swing.JLabel();
+        matP8 = new javax.swing.JLabel();
+        matP9 = new javax.swing.JLabel();
+        matP10 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField37 = new javax.swing.JTextField();
-        jTextField38 = new javax.swing.JTextField();
-        jTextField39 = new javax.swing.JTextField();
+        matRes2 = new javax.swing.JTextField();
+        matRes4 = new javax.swing.JTextField();
+        matRes3 = new javax.swing.JTextField();
+        matRes5 = new javax.swing.JTextField();
+        matRes6 = new javax.swing.JTextField();
+        matRes9 = new javax.swing.JTextField();
+        matRes10 = new javax.swing.JTextField();
+        matRes1 = new javax.swing.JTextField();
+        matRes8 = new javax.swing.JTextField();
+        matRes7 = new javax.swing.JTextField();
         cronometro2 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        MatenviarBtn = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        PuntajeMatLbl = new javax.swing.JLabel();
         Ingles = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel9 = new javax.swing.JPanel();
@@ -758,35 +763,35 @@ public class Panel extends javax.swing.JFrame {
         jPanel4.setForeground(new java.awt.Color(51, 51, 51));
         jPanel4.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel17.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel17.setText("1: ¿Cuál es el resultado de  8 + 7?");
+        matP1.setForeground(new java.awt.Color(51, 51, 51));
+        matP1.setText("1: ¿Cuál es el resultado de  8 + 7?");
 
-        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel18.setText("2: ¿Cuánto es  9 × 6 ?");
+        matP2.setForeground(new java.awt.Color(51, 51, 51));
+        matP2.setText("2: ¿Cuánto es  9 × 6 ?");
 
-        jLabel19.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel19.setText("4: ¿Cuánto es  15 − 9 ?");
+        matP4.setForeground(new java.awt.Color(51, 51, 51));
+        matP4.setText("4: ¿Cuánto es  15 − 9 ?");
 
-        jLabel20.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel20.setText("3: ¿Cuál es la raíz cuadrada de 49?");
+        matP3.setForeground(new java.awt.Color(51, 51, 51));
+        matP3.setText("3: ¿Cuál es la raíz cuadrada de 49?");
 
-        jLabel21.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel21.setText("5: ¿Cuánto es  3  ** 2 ?");
+        matP5.setForeground(new java.awt.Color(51, 51, 51));
+        matP5.setText("5: ¿Cuánto es  3  ** 2 ?");
 
-        jLabel22.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel22.setText("7: Un triangulo tiene dos lados iguales, ¿cómo se llama?");
+        matP7.setForeground(new java.awt.Color(51, 51, 51));
+        matP7.setText("7: Un triangulo tiene dos lados iguales, ¿cómo se llama?");
 
-        jLabel23.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel23.setText("6: ¿Cuál es el valor de  8 / 2 ?");
+        matP6.setForeground(new java.awt.Color(51, 51, 51));
+        matP6.setText("6: ¿Cuál es el valor de  8 / 2 ?");
 
-        jLabel24.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel24.setText("8: ¿Cuánto es  25 % de 100?");
+        matP8.setForeground(new java.awt.Color(51, 51, 51));
+        matP8.setText("8: ¿Cuánto es  25 % de 100?");
 
-        jLabel25.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel25.setText("9: Si  𝑥 + 3 = 7 , ¿cuánto vale  𝑥 ?");
+        matP9.setForeground(new java.awt.Color(51, 51, 51));
+        matP9.setText("9: Si  𝑥 + 3 = 7 , ¿cuánto vale  𝑥 ?");
 
-        jLabel26.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel26.setText("10: ¿Cuánto es  10**0 ?");
+        matP10.setForeground(new java.awt.Color(51, 51, 51));
+        matP10.setText("10: ¿Cuánto es  10**0 ?");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -795,18 +800,18 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(matP7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(matP10, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP5, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP6, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP8)
+                            .addComponent(matP1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP9, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -814,25 +819,25 @@ public class Panel extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jLabel17)
+                .addComponent(matP1)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel18)
+                .addComponent(matP2)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel20)
+                .addComponent(matP3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel19)
+                .addComponent(matP4)
                 .addGap(32, 32, 32)
-                .addComponent(jLabel21)
+                .addComponent(matP5)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel23)
+                .addComponent(matP6)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel22)
+                .addComponent(matP7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel24)
+                .addComponent(matP8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jLabel25)
+                .addComponent(matP9)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matP10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
 
@@ -857,63 +862,63 @@ public class Panel extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        matRes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                matRes2ActionPerformed(evt);
             }
         });
 
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+        matRes4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                matRes4ActionPerformed(evt);
             }
         });
 
-        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+        matRes3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
+                matRes3ActionPerformed(evt);
             }
         });
 
-        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+        matRes5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField12ActionPerformed(evt);
+                matRes5ActionPerformed(evt);
             }
         });
 
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
+        matRes6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
+                matRes6ActionPerformed(evt);
             }
         });
 
-        jTextField14.addActionListener(new java.awt.event.ActionListener() {
+        matRes9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField14ActionPerformed(evt);
+                matRes9ActionPerformed(evt);
             }
         });
 
-        jTextField15.addActionListener(new java.awt.event.ActionListener() {
+        matRes10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField15ActionPerformed(evt);
+                matRes10ActionPerformed(evt);
             }
         });
 
-        jTextField37.addActionListener(new java.awt.event.ActionListener() {
+        matRes1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField37ActionPerformed(evt);
+                matRes1ActionPerformed(evt);
             }
         });
 
-        jTextField38.addActionListener(new java.awt.event.ActionListener() {
+        matRes8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField38ActionPerformed(evt);
+                matRes8ActionPerformed(evt);
             }
         });
 
-        jTextField39.addActionListener(new java.awt.event.ActionListener() {
+        matRes7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField39ActionPerformed(evt);
+                matRes7ActionPerformed(evt);
             }
         });
 
@@ -924,40 +929,40 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
-                    .addComponent(jTextField11)
-                    .addComponent(jTextField10)
-                    .addComponent(jTextField13)
-                    .addComponent(jTextField12)
-                    .addComponent(jTextField14)
-                    .addComponent(jTextField15)
-                    .addComponent(jTextField37, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
-                    .addComponent(jTextField38)
-                    .addComponent(jTextField39)))
+                    .addComponent(matRes2, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addComponent(matRes3)
+                    .addComponent(matRes4)
+                    .addComponent(matRes6)
+                    .addComponent(matRes5)
+                    .addComponent(matRes9)
+                    .addComponent(matRes10)
+                    .addComponent(matRes1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addComponent(matRes8)
+                    .addComponent(matRes7)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
@@ -965,14 +970,18 @@ public class Panel extends javax.swing.JFrame {
 
         cronometro2.setText("00:00:00");
 
-        jButton6.setBackground(new java.awt.Color(51, 51, 51));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Enviar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        MatenviarBtn.setBackground(new java.awt.Color(51, 51, 51));
+        MatenviarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        MatenviarBtn.setText("Enviar");
+        MatenviarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                MatenviarBtnActionPerformed(evt);
             }
         });
+
+        jLabel4.setText("Puntaje:");
+
+        PuntajeMatLbl.setText("0");
 
         javax.swing.GroupLayout MatematicasLayout = new javax.swing.GroupLayout(Matematicas);
         Matematicas.setLayout(MatematicasLayout);
@@ -981,8 +990,12 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(MatematicasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cronometro2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 627, Short.MAX_VALUE)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 483, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PuntajeMatLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(MatenviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MatematicasLayout.createSequentialGroup()
@@ -996,7 +1009,10 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cronometro2)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(MatenviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(PuntajeMatLbl)))
                 .addContainerGap(437, Short.MAX_VALUE))
             .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MatematicasLayout.createSequentialGroup()
@@ -1928,6 +1944,7 @@ public class Panel extends javax.swing.JFrame {
           actualizarPuntajeEnTabla("Español", puntajeEspanol);
           
           puntajeEspanol = 0;
+          puntajeMatematicas = 0;
           
 
         
@@ -2017,45 +2034,45 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField36ActionPerformed
 
-    private void jTextField39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField39ActionPerformed
+    private void matRes7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField39ActionPerformed
+    }//GEN-LAST:event_matRes7ActionPerformed
 
-    private void jTextField38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField38ActionPerformed
+    private void matRes8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField38ActionPerformed
+    }//GEN-LAST:event_matRes8ActionPerformed
 
-    private void jTextField37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField37ActionPerformed
+    private void matRes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField37ActionPerformed
+    }//GEN-LAST:event_matRes1ActionPerformed
 
-    private void jTextField15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField15ActionPerformed
+    private void matRes10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes10ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField15ActionPerformed
+    }//GEN-LAST:event_matRes10ActionPerformed
 
-    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
+    private void matRes9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes9ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField14ActionPerformed
+    }//GEN-LAST:event_matRes9ActionPerformed
 
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
+    private void matRes6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
+    }//GEN-LAST:event_matRes6ActionPerformed
 
-    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+    private void matRes5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField12ActionPerformed
+    }//GEN-LAST:event_matRes5ActionPerformed
 
-    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+    private void matRes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField11ActionPerformed
+    }//GEN-LAST:event_matRes3ActionPerformed
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
+    private void matRes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
+    }//GEN-LAST:event_matRes4ActionPerformed
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void matRes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+    }//GEN-LAST:event_matRes2ActionPerformed
 
     private void jTextField42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField42ActionPerformed
         // TODO add your handling code here:
@@ -2089,9 +2106,31 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox16ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void MatenviarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MatenviarBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+        
+        verificarRespuestaAbierta(matRes1,matP1,"16");
+        verificarRespuestaAbierta(matRes2,matP2,"54");
+        verificarRespuestaAbierta(matRes3,matP3,"7");
+        verificarRespuestaAbierta(matRes4,matP4,"6");
+        verificarRespuestaAbierta(matRes5,matP5,"9");
+        verificarRespuestaAbierta(matRes6,matP6,"4");
+        verificarRespuestaAbierta(matRes7,matP7,"ISOCELES");
+        verificarRespuestaAbierta(matRes8,matP8,"25");
+        verificarRespuestaAbierta(matRes9,matP9,"4");
+        verificarRespuestaAbierta(matRes10,matP10,"1");
+        
+        PuntajeMatLbl.setText(String.valueOf(puntajeMatematicas));  
+        actualizarPuntajeEnTabla("Matematicas", puntajeMatematicas);
+        
+        puntajeEspanol = 0;
+        puntajeMatematicas = 0;
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_MatenviarBtnActionPerformed
 
     private void jTextField22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField22ActionPerformed
         // TODO add your handling code here:
@@ -2168,7 +2207,9 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel LabelPromedio;
     private javax.swing.JLabel LabelPuntaje;
     private javax.swing.JPanel Matematicas;
+    private javax.swing.JButton MatenviarBtn;
     private javax.swing.JPanel Panel_examen;
+    private javax.swing.JLabel PuntajeMatLbl;
     private javax.swing.JTable TablaCalif;
     private javax.swing.JCheckBox azul;
     private javax.swing.JLabel cronometro;
@@ -2195,7 +2236,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox10;
@@ -2212,17 +2252,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox21;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -2237,6 +2267,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
@@ -2279,12 +2310,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JSplitPane jSplitPane5;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
@@ -2305,9 +2330,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField34;
     private javax.swing.JTextField jTextField35;
     private javax.swing.JTextField jTextField36;
-    private javax.swing.JTextField jTextField37;
-    private javax.swing.JTextField jTextField38;
-    private javax.swing.JTextField jTextField39;
     private javax.swing.JTextField jTextField40;
     private javax.swing.JTextField jTextField41;
     private javax.swing.JTextField jTextField42;
@@ -2315,7 +2337,26 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField44;
     private javax.swing.JTextField jTextField45;
     private javax.swing.JTextField jTextField46;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel matP1;
+    private javax.swing.JLabel matP10;
+    private javax.swing.JLabel matP2;
+    private javax.swing.JLabel matP3;
+    private javax.swing.JLabel matP4;
+    private javax.swing.JLabel matP5;
+    private javax.swing.JLabel matP6;
+    private javax.swing.JLabel matP7;
+    private javax.swing.JLabel matP8;
+    private javax.swing.JLabel matP9;
+    private javax.swing.JTextField matRes1;
+    private javax.swing.JTextField matRes10;
+    private javax.swing.JTextField matRes2;
+    private javax.swing.JTextField matRes3;
+    private javax.swing.JTextField matRes4;
+    private javax.swing.JTextField matRes5;
+    private javax.swing.JTextField matRes6;
+    private javax.swing.JTextField matRes7;
+    private javax.swing.JTextField matRes8;
+    private javax.swing.JTextField matRes9;
     private javax.swing.JCheckBox mesa;
     private javax.swing.JCheckBox metafora;
     private javax.swing.JCheckBox personificacion;
