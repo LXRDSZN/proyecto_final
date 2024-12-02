@@ -22,6 +22,8 @@ public class Panel extends javax.swing.JFrame {
     
     private int puntajeEspanol = 0;
     private int puntajeMatematicas = 0;
+    private int puntajeIngles = 0;
+
 
     
 
@@ -100,6 +102,7 @@ public class Panel extends javax.swing.JFrame {
                 etiquetaRespuesta.setForeground(Color.GREEN); // Cambia a verde
                 puntajeEspanol++;
                 puntajeMatematicas++;
+                puntajeIngles++;
             } else {
                 etiquetaRespuesta.setForeground(Color.RED); // Cambia a rojo
             }
@@ -114,6 +117,7 @@ public class Panel extends javax.swing.JFrame {
             etiquetaRespuesta.setForeground(Color.GREEN); // Cambia el texto a verde
             puntajeEspanol++;
             puntajeMatematicas++;
+            puntajeIngles++;
     } else {
         etiquetaRespuesta.setForeground(Color.RED); // Cambia el texto a rojo
     }
@@ -139,6 +143,7 @@ public class Panel extends javax.swing.JFrame {
         espanol1 = new javax.swing.ButtonGroup();
         espanol7 = new javax.swing.ButtonGroup();
         espanol8 = new javax.swing.ButtonGroup();
+        ingles1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tabla_panel = new javax.swing.JTabbedPane();
@@ -221,33 +226,35 @@ public class Panel extends javax.swing.JFrame {
         Ingles = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel9 = new javax.swing.JPanel();
-        jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
-        jLabel35 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
+        inglesP1 = new javax.swing.JLabel();
+        inglesP2 = new javax.swing.JLabel();
+        inglesP3 = new javax.swing.JLabel();
+        inglesP7 = new javax.swing.JLabel();
+        inglesP6 = new javax.swing.JLabel();
+        inglesP8 = new javax.swing.JLabel();
+        inglesP9 = new javax.swing.JLabel();
+        inglesP10 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
-        jCheckBox19 = new javax.swing.JCheckBox();
-        jCheckBox20 = new javax.swing.JCheckBox();
-        jCheckBox21 = new javax.swing.JCheckBox();
-        jTextField16 = new javax.swing.JTextField();
-        jTextField17 = new javax.swing.JTextField();
-        jTextField18 = new javax.swing.JTextField();
-        jTextField19 = new javax.swing.JTextField();
-        jTextField20 = new javax.swing.JTextField();
-        jTextField21 = new javax.swing.JTextField();
-        jTextField40 = new javax.swing.JTextField();
-        jTextField41 = new javax.swing.JTextField();
-        jTextField23 = new javax.swing.JTextField();
+        childs = new javax.swing.JCheckBox();
+        children = new javax.swing.JCheckBox();
+        child = new javax.swing.JCheckBox();
+        inglesRes2 = new javax.swing.JTextField();
+        inglesRes4 = new javax.swing.JTextField();
+        inglesRes3 = new javax.swing.JTextField();
+        inglesRes5 = new javax.swing.JTextField();
+        inglesRes6 = new javax.swing.JTextField();
+        inglesRes10 = new javax.swing.JTextField();
+        inglesRes7 = new javax.swing.JTextField();
+        inglesRes8 = new javax.swing.JTextField();
+        inglesRes9 = new javax.swing.JTextField();
         jTextField22 = new javax.swing.JTextField();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        inglesP5 = new javax.swing.JLabel();
+        inglesP4 = new javax.swing.JLabel();
         cronometro3 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
+        inglesEnviarBtn = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        PuntajeInglesLabel = new javax.swing.JLabel();
         Humanidades = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
         jPanel12 = new javax.swing.JPanel();
@@ -1032,29 +1039,29 @@ public class Panel extends javax.swing.JFrame {
         jPanel9.setForeground(new java.awt.Color(51, 51, 51));
         jPanel9.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel27.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel27.setText("1: What is the plural form of \"child\"?");
+        inglesP1.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP1.setText("1: What is the plural form of \"child\"?");
 
-        jLabel28.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel28.setText("2: What does \"hello\" mean in Spanish? ");
+        inglesP2.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP2.setText("2: What does \"hello\" mean in Spanish? ");
 
-        jLabel30.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel30.setText("3: What is the correct translation of \"I am happy\"? ");
+        inglesP3.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP3.setText("3: What is the correct translation of \"I am happy\"? ");
 
-        jLabel32.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel32.setText("7: How do you say \"rojo\" in English? ");
+        inglesP7.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP7.setText("7: How do you say \"rojo\" in English? ");
 
-        jLabel33.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel33.setText("6: What does \"big\" mean? ");
+        inglesP6.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP6.setText("6: What does \"big\" mean? ");
 
-        jLabel34.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel34.setText("8: What is the opposite of \"happy\"? ");
+        inglesP8.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP8.setText("8: What is the opposite of \"happy\"? ");
 
-        jLabel35.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel35.setText("9: How do you say \"ventana\" in English? ");
+        inglesP9.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP9.setText("9: How do you say \"ventana\" in English? ");
 
-        jLabel36.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel36.setText("10: Which is a correct synonym for \"beautiful\"? ");
+        inglesP10.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP10.setText("10: Which is a correct synonym for \"beautiful\"? ");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -1063,35 +1070,35 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel34)
-                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel36)
-                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel30)
-                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inglesP8)
+                    .addComponent(inglesP9, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inglesP1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inglesP10)
+                    .addComponent(inglesP7, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inglesP6, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inglesP3)
+                    .addComponent(inglesP2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jLabel27)
+                .addComponent(inglesP1)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel28)
+                .addComponent(inglesP2)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel30)
+                .addComponent(inglesP3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
-                .addComponent(jLabel33)
+                .addComponent(inglesP6)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel32)
+                .addComponent(inglesP7)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel34)
+                .addComponent(inglesP8)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel35)
+                .addComponent(inglesP9)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel36)
+                .addComponent(inglesP10)
                 .addGap(20, 20, 20))
         );
 
@@ -1103,75 +1110,78 @@ public class Panel extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jCheckBox19.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox19.setForeground(new java.awt.Color(51, 51, 51));
-        jCheckBox19.setText("Childs ");
-        jCheckBox19.addActionListener(new java.awt.event.ActionListener() {
+        childs.setBackground(new java.awt.Color(255, 255, 255));
+        ingles1.add(childs);
+        childs.setForeground(new java.awt.Color(51, 51, 51));
+        childs.setText("Childs ");
+        childs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox19ActionPerformed(evt);
+                childsActionPerformed(evt);
             }
         });
 
-        jCheckBox20.setText("Children ");
-        jCheckBox20.addActionListener(new java.awt.event.ActionListener() {
+        ingles1.add(children);
+        children.setText("Children ");
+        children.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox20ActionPerformed(evt);
+                childrenActionPerformed(evt);
             }
         });
 
-        jCheckBox21.setText("Child");
+        ingles1.add(child);
+        child.setText("Child");
 
-        jTextField16.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField16ActionPerformed(evt);
+                inglesRes2ActionPerformed(evt);
             }
         });
 
-        jTextField17.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField17ActionPerformed(evt);
+                inglesRes4ActionPerformed(evt);
             }
         });
 
-        jTextField18.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField18ActionPerformed(evt);
+                inglesRes3ActionPerformed(evt);
             }
         });
 
-        jTextField19.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField19ActionPerformed(evt);
+                inglesRes5ActionPerformed(evt);
             }
         });
 
-        jTextField20.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField20ActionPerformed(evt);
+                inglesRes6ActionPerformed(evt);
             }
         });
 
-        jTextField21.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField21ActionPerformed(evt);
+                inglesRes10ActionPerformed(evt);
             }
         });
 
-        jTextField40.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField40ActionPerformed(evt);
+                inglesRes7ActionPerformed(evt);
             }
         });
 
-        jTextField41.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField41ActionPerformed(evt);
+                inglesRes8ActionPerformed(evt);
             }
         });
 
-        jTextField23.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField23ActionPerformed(evt);
+                inglesRes9ActionPerformed(evt);
             }
         });
 
@@ -1181,54 +1191,54 @@ public class Panel extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(childs, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(94, 94, 94)
-                .addComponent(jCheckBox20, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(children, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
-                .addComponent(jCheckBox21, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(child, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField21, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField23)
-                    .addComponent(jTextField41)
-                    .addComponent(jTextField40)
-                    .addComponent(jTextField20)
-                    .addComponent(jTextField19)
-                    .addComponent(jTextField17)
-                    .addComponent(jTextField18))
+                    .addComponent(inglesRes10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(inglesRes9)
+                    .addComponent(inglesRes8)
+                    .addComponent(inglesRes7)
+                    .addComponent(inglesRes6)
+                    .addComponent(inglesRes5)
+                    .addComponent(inglesRes4)
+                    .addComponent(inglesRes3))
                 .addContainerGap())
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField16)
+                .addComponent(inglesRes2)
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox19)
-                    .addComponent(jCheckBox20)
-                    .addComponent(jCheckBox21))
+                    .addComponent(childs)
+                    .addComponent(children)
+                    .addComponent(child))
                 .addGap(18, 18, 18)
-                .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
         );
 
@@ -1259,22 +1269,26 @@ public class Panel extends javax.swing.JFrame {
 
         jSplitPane3.setRightComponent(jPanel10);
 
-        jLabel31.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel31.setText("5: Which is the past tense of \"go\"? ");
+        inglesP5.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP5.setText("5: Which is the past tense of \"go\"? ");
 
-        jLabel29.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel29.setText("4: How do you say \"gato\" in English? ");
+        inglesP4.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP4.setText("4: How do you say \"gato\" in English? ");
 
         cronometro3.setText("00:00:00");
 
-        jButton7.setBackground(new java.awt.Color(51, 51, 51));
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Enviar");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        inglesEnviarBtn.setBackground(new java.awt.Color(51, 51, 51));
+        inglesEnviarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        inglesEnviarBtn.setText("Enviar");
+        inglesEnviarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                inglesEnviarBtnActionPerformed(evt);
             }
         });
+
+        jLabel5.setText("Puntaje:");
+
+        PuntajeInglesLabel.setText("0");
 
         javax.swing.GroupLayout InglesLayout = new javax.swing.GroupLayout(Ingles);
         Ingles.setLayout(InglesLayout);
@@ -1285,14 +1299,18 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(InglesLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(InglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(inglesP5, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inglesP4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 603, Short.MAX_VALUE))
                     .addGroup(InglesLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(cronometro3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PuntajeInglesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(inglesEnviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(InglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(InglesLayout.createSequentialGroup()
@@ -1306,11 +1324,13 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(InglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cronometro3)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inglesEnviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(PuntajeInglesLabel))
                 .addGap(135, 135, 135)
-                .addComponent(jLabel29)
+                .addComponent(inglesP4)
                 .addGap(26, 26, 26)
-                .addComponent(jLabel31)
+                .addComponent(inglesP5)
                 .addContainerGap(246, Short.MAX_VALUE))
             .addGroup(InglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(InglesLayout.createSequentialGroup()
@@ -2125,6 +2145,7 @@ public class Panel extends javax.swing.JFrame {
         
         puntajeEspanol = 0;
         puntajeMatematicas = 0;
+        puntajeIngles = 0;
         
         
         
@@ -2136,53 +2157,98 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField22ActionPerformed
 
-    private void jTextField41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField41ActionPerformed
+    private void inglesRes8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField41ActionPerformed
+    }//GEN-LAST:event_inglesRes8ActionPerformed
 
-    private void jTextField40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField40ActionPerformed
+    private void inglesRes7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField40ActionPerformed
+    }//GEN-LAST:event_inglesRes7ActionPerformed
 
-    private void jTextField21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField21ActionPerformed
+    private void inglesRes10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes10ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField21ActionPerformed
+    }//GEN-LAST:event_inglesRes10ActionPerformed
 
-    private void jTextField20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField20ActionPerformed
+    private void inglesRes6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField20ActionPerformed
+    }//GEN-LAST:event_inglesRes6ActionPerformed
 
-    private void jTextField19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField19ActionPerformed
+    private void inglesRes5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField19ActionPerformed
+    }//GEN-LAST:event_inglesRes5ActionPerformed
 
-    private void jTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
+    private void inglesRes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField18ActionPerformed
+    }//GEN-LAST:event_inglesRes3ActionPerformed
 
-    private void jTextField17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField17ActionPerformed
+    private void inglesRes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField17ActionPerformed
+    }//GEN-LAST:event_inglesRes4ActionPerformed
 
-    private void jTextField16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField16ActionPerformed
+    private void inglesRes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField16ActionPerformed
+    }//GEN-LAST:event_inglesRes2ActionPerformed
 
-    private void jCheckBox20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox20ActionPerformed
+    private void childrenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_childrenActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox20ActionPerformed
+    }//GEN-LAST:event_childrenActionPerformed
 
-    private void jCheckBox19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox19ActionPerformed
+    private void childsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_childsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox19ActionPerformed
+    }//GEN-LAST:event_childsActionPerformed
 
-    private void jTextField23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField23ActionPerformed
+    private void inglesRes9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes9ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField23ActionPerformed
+    }//GEN-LAST:event_inglesRes9ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void inglesEnviarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesEnviarBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+          verificarRespuesta(childs, inglesP1, false); // true si es la correcta
+          verificarRespuesta(children, inglesP1, true); // true si es la correcta
+          verificarRespuesta(child, inglesP1, false);
+          
+          verificarRespuestaAbierta(inglesRes2,inglesP2,"HOLA");
+          verificarRespuestaAbierta(inglesRes3,inglesP3,"ESTOY FELIZ");
+          // Pregunta 1
+          verificarRespuestaAbierta(inglesRes4, inglesP4, "CAT"); // Respuesta correcta: "Cat"
+
+// Pregunta 2
+          verificarRespuestaAbierta(inglesRes5, inglesP5, "WENT"); // Respuesta correcta: "Went"
+
+// Pregunta 3
+verificarRespuestaAbierta(inglesRes6, inglesP6, "GRANDE"); // Respuesta correcta: "Grande"
+
+// Pregunta 4
+verificarRespuestaAbierta(inglesRes7, inglesP7, "RED"); // Respuesta correcta: "Red"
+
+// Pregunta 5
+verificarRespuestaAbierta(inglesRes8, inglesP8, "SAD"); // Respuesta correcta: "Sad"
+
+// Pregunta 6
+verificarRespuestaAbierta(inglesRes9, inglesP9, "WINDOW"); // Respuesta correcta: "Window"
+
+// Pregunta 7
+verificarRespuestaAbierta(inglesRes10, inglesP10, "PRETTY"); // Respuesta correcta: "Pretty"
+
+
+
+          PuntajeInglesLabel.setText(String.valueOf(puntajeIngles)); 
+          
+          actualizarPuntajeEnTabla("Ingles", puntajeIngles);
+
+
+
+
+puntajeEspanol = 0;
+puntajeMatematicas = 0;
+puntajeIngles = 0;
+
+
+
+          
+
+        
+    }//GEN-LAST:event_inglesEnviarBtnActionPerformed
 
     private void tabla_panelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabla_panelStateChanged
         // TODO add your handling code here:
@@ -2209,9 +2275,13 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JPanel Matematicas;
     private javax.swing.JButton MatenviarBtn;
     private javax.swing.JPanel Panel_examen;
+    private javax.swing.JLabel PuntajeInglesLabel;
     private javax.swing.JLabel PuntajeMatLbl;
     private javax.swing.JTable TablaCalif;
     private javax.swing.JCheckBox azul;
+    private javax.swing.JCheckBox child;
+    private javax.swing.JCheckBox children;
+    private javax.swing.JCheckBox childs;
     private javax.swing.JLabel cronometro;
     private javax.swing.JLabel cronometro2;
     private javax.swing.JLabel cronometro3;
@@ -2231,12 +2301,32 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel espanolP8;
     private javax.swing.JLabel espanolP9;
     private javax.swing.JCheckBox hermoso;
+    private javax.swing.ButtonGroup ingles1;
+    private javax.swing.JButton inglesEnviarBtn;
+    private javax.swing.JLabel inglesP1;
+    private javax.swing.JLabel inglesP10;
+    private javax.swing.JLabel inglesP2;
+    private javax.swing.JLabel inglesP3;
+    private javax.swing.JLabel inglesP4;
+    private javax.swing.JLabel inglesP5;
+    private javax.swing.JLabel inglesP6;
+    private javax.swing.JLabel inglesP7;
+    private javax.swing.JLabel inglesP8;
+    private javax.swing.JLabel inglesP9;
+    private javax.swing.JTextField inglesRes10;
+    private javax.swing.JTextField inglesRes2;
+    private javax.swing.JTextField inglesRes3;
+    private javax.swing.JTextField inglesRes4;
+    private javax.swing.JTextField inglesRes5;
+    private javax.swing.JTextField inglesRes6;
+    private javax.swing.JTextField inglesRes7;
+    private javax.swing.JTextField inglesRes8;
+    private javax.swing.JTextField inglesRes9;
     private javax.swing.JCheckBox intransitivo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox10;
     private javax.swing.JCheckBox jCheckBox11;
@@ -2247,23 +2337,10 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox16;
     private javax.swing.JCheckBox jCheckBox17;
     private javax.swing.JCheckBox jCheckBox18;
-    private javax.swing.JCheckBox jCheckBox19;
-    private javax.swing.JCheckBox jCheckBox20;
-    private javax.swing.JCheckBox jCheckBox21;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
@@ -2278,6 +2355,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
@@ -2310,14 +2388,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JSplitPane jSplitPane5;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField27;
@@ -2330,8 +2401,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField34;
     private javax.swing.JTextField jTextField35;
     private javax.swing.JTextField jTextField36;
-    private javax.swing.JTextField jTextField40;
-    private javax.swing.JTextField jTextField41;
     private javax.swing.JTextField jTextField42;
     private javax.swing.JTextField jTextField43;
     private javax.swing.JTextField jTextField44;
