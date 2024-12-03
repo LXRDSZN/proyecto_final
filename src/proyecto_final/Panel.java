@@ -8,7 +8,10 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +26,21 @@ public class Panel extends javax.swing.JFrame {
     private int puntajeEspanol = 0;
     private int puntajeMatematicas = 0;
     private int puntajeIngles = 0;
+    private int puntajeHumanidades = 0;
+    private int puntajeEcosistemas = 0;
+    
+    
+private Timer timerEspanol, timerMatematicas, timerIngles, timerHumanidades, timerEcosistemas;
+private int horasEspanol = 0, minutosEspanol = 0, segundosEspanol = 0;
+private int horasMatematicas = 0, minutosMatematicas = 0, segundosMatematicas = 0;
+private int horasIngles = 0, minutosIngles = 0, segundosIngles = 0;
+private int horasHumanidades = 0, minutosHumanidades = 0, segundosHumanidades = 0;
+private int horasEcosistemas = 0, minutosEcosistemas = 0, segundosEcosistemas = 0;
+
+
+
+
+    
 
 
     
@@ -31,8 +49,100 @@ public class Panel extends javax.swing.JFrame {
      * Creates new form Panel
      */
     public Panel() {
+        inicializarTimers();
         initComponents();
+        
+
     }
+    
+    
+    private void inicializarTimers() {
+    // Timer para Español
+    timerEspanol = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosEspanol++;
+            if (segundosEspanol == 60) {
+                segundosEspanol = 0;
+                minutosEspanol++;
+            }
+            if (minutosEspanol == 60) {
+                minutosEspanol = 0;
+                horasEspanol++;
+            }
+            cronometro.setText(String.format("%02d:%02d:%02d", horasEspanol, minutosEspanol, segundosEspanol));
+        }
+    });
+
+    // Timer para Matemáticas
+    timerMatematicas = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosMatematicas++;
+            if (segundosMatematicas == 60) {
+                segundosMatematicas = 0;
+                minutosMatematicas++;
+            }
+            if (minutosMatematicas == 60) {
+                minutosMatematicas = 0;
+                horasMatematicas++;
+            }
+            cronometro2.setText(String.format("%02d:%02d:%02d", horasMatematicas, minutosMatematicas, segundosMatematicas));
+        }
+    });
+
+    // Timer para Inglés
+    timerIngles = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosIngles++;
+            if (segundosIngles == 60) {
+                segundosIngles = 0;
+                minutosIngles++;
+            }
+            if (minutosIngles == 60) {
+                minutosIngles = 0;
+                horasIngles++;
+            }
+            cronometro3.setText(String.format("%02d:%02d:%02d", horasIngles, minutosIngles, segundosIngles));
+        }
+    });
+
+    // Timer para Humanidades
+    timerHumanidades = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosHumanidades++;
+            if (segundosHumanidades == 60) {
+                segundosHumanidades = 0;
+                minutosHumanidades++;
+            }
+            if (minutosHumanidades == 60) {
+                minutosHumanidades = 0;
+                horasHumanidades++;
+            }
+            cronometro4.setText(String.format("%02d:%02d:%02d", horasHumanidades, minutosHumanidades, segundosHumanidades));
+        }
+    });
+
+    // Timer para Ecosistemas
+    timerEcosistemas = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosEcosistemas++;
+            if (segundosEcosistemas == 60) {
+                segundosEcosistemas = 0;
+                minutosEcosistemas++;
+            }
+            if (minutosEcosistemas == 60) {
+                minutosEcosistemas = 0;
+                horasEcosistemas++;
+            }
+            cronometro5.setText(String.format("%02d:%02d:%02d", horasEcosistemas, minutosEcosistemas, segundosEcosistemas));
+        }
+    });
+}
+
     
     
     
@@ -103,6 +213,8 @@ public class Panel extends javax.swing.JFrame {
                 puntajeEspanol++;
                 puntajeMatematicas++;
                 puntajeIngles++;
+                puntajeHumanidades++;
+                puntajeEcosistemas++;
             } else {
                 etiquetaRespuesta.setForeground(Color.RED); // Cambia a rojo
             }
@@ -118,18 +230,123 @@ public class Panel extends javax.swing.JFrame {
             puntajeEspanol++;
             puntajeMatematicas++;
             puntajeIngles++;
+            puntajeHumanidades++;
+            puntajeEcosistemas++;
     } else {
         etiquetaRespuesta.setForeground(Color.RED); // Cambia el texto a rojo
     }
 }
 
     
-    
-        private void RevelarRespuestasButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                        
-        // TODO add your handling code here:
+private void manejarMateriaSeleccionada(JComboBox<String> comboMaterias) {
+    // Obtener la materia seleccionada
+    String materiaSeleccionada = (String) comboMaterias.getSelectedItem();
 
-
+    // Verificar si hay una selección
+    if (materiaSeleccionada != null) {
+        switch (materiaSeleccionada) {
+            case "Español":
+                realizarAccionEspanol();
+                break;
+            case "Matematicas":
+                realizarAccionMatematicas();
+                break;
+            case "Ingles":
+                realizarAccionIngles();
+                break;
+            case "Humanidades":
+                realizarAccionHumanidades();
+                break;
+            case "Ecosistemas":
+                realizarAccionEcosistemas();
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Materia no reconocida.");
+                break;
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Por favor, selecciona una materia.");
     }
+}
+
+// Métodos para realizar acciones específicas
+private void realizarAccionEspanol() {
+    new Espanol().setVisible(true);
+    this.dispose();
+    // Aquí agrega lo que debe ocurrir para Español
+}
+
+private void realizarAccionMatematicas() {
+    new Matematicas().setVisible(true);
+    this.dispose();
+    // Aquí agrega lo que debe ocurrir para Matemáticas
+}
+
+private void realizarAccionIngles() {
+    new Ingles().setVisible(true);
+    this.dispose();
+    // Aquí agrega lo que debe ocurrir para Inglés
+}
+
+private void realizarAccionHumanidades() {
+    new Humanidades().setVisible(true);
+    this.dispose();
+
+    // Aquí agrega lo que debe ocurrir para Humanidades
+}
+
+private void realizarAccionEcosistemas() {
+    new Ecosistemas().setVisible(true);
+    this.dispose();
+    // Aquí agrega lo que debe ocurrir para Ecosistemas
+}
+
+    
+private void detenerTimers() {
+    timerEspanol.stop();
+    timerMatematicas.stop();
+    timerIngles.stop();
+    timerHumanidades.stop();
+    timerEcosistemas.stop();
+}
+        
+
+private int obtenerSegundosTotales() {
+    // Dependiendo de la materia seleccionada, calcular el tiempo total en segundos
+    if (tabla_panel.getSelectedIndex() == 0) {
+        return horasEspanol * 3600 + minutosEspanol * 60 + segundosEspanol;
+    } else if (tabla_panel.getSelectedIndex() == 1) {
+        return horasMatematicas * 3600 + minutosMatematicas * 60 + segundosMatematicas;
+    } else if (tabla_panel.getSelectedIndex() == 2) {
+        return horasIngles * 3600 + minutosIngles * 60 + segundosIngles;
+    } else if (tabla_panel.getSelectedIndex() == 3) {
+        return horasHumanidades * 3600 + minutosHumanidades * 60 + segundosHumanidades;
+    } else if (tabla_panel.getSelectedIndex() == 4) {
+        return horasEcosistemas * 3600 + minutosEcosistemas * 60 + segundosEcosistemas;
+    }
+    return 0;  // En caso de que no haya una pestaña seleccionada
+}
+
+
+private void manejarEnviar(JLabel labelTiempo) {
+    // Detener el Timer correspondiente al cronómetro actual
+    int segundosTotales = obtenerSegundosTotales();
+
+    // Verificar si ha pasado más de 1 minuto (60 segundos)
+    if (segundosTotales > 60) {
+        labelTiempo.setText("Fuera de tiempo");
+        labelTiempo.setForeground(Color.RED);  // Cambiar a rojo
+    } else {
+        labelTiempo.setText("A tiempo");
+        labelTiempo.setForeground(Color.GREEN);  // Cambiar a verde
+    }
+
+    // Detener el Timer
+    detenerTimers();
+}
+        
+        
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -144,6 +361,9 @@ public class Panel extends javax.swing.JFrame {
         espanol7 = new javax.swing.ButtonGroup();
         espanol8 = new javax.swing.ButtonGroup();
         ingles1 = new javax.swing.ButtonGroup();
+        EcoR5 = new javax.swing.ButtonGroup();
+        EcoR7 = new javax.swing.ButtonGroup();
+        EcoR8 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tabla_panel = new javax.swing.JTabbedPane();
@@ -194,6 +414,7 @@ public class Panel extends javax.swing.JFrame {
         EnviarButtonEspanol = new javax.swing.JButton();
         LabelPuntaje = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        LabelTiempo = new javax.swing.JLabel();
         Matematicas = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
@@ -223,6 +444,7 @@ public class Panel extends javax.swing.JFrame {
         MatenviarBtn = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         PuntajeMatLbl = new javax.swing.JLabel();
+        LabelTiempo1 = new javax.swing.JLabel();
         Ingles = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel9 = new javax.swing.JPanel();
@@ -255,67 +477,74 @@ public class Panel extends javax.swing.JFrame {
         inglesEnviarBtn = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         PuntajeInglesLabel = new javax.swing.JLabel();
+        LabelTiempo2 = new javax.swing.JLabel();
         Humanidades = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
         jPanel12 = new javax.swing.JPanel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel38 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
-        jLabel45 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
+        humanidadesP1 = new javax.swing.JLabel();
+        humanidadesP2 = new javax.swing.JLabel();
+        humanidadesP4 = new javax.swing.JLabel();
+        humanidadesP3 = new javax.swing.JLabel();
+        humanidadesP5 = new javax.swing.JLabel();
+        humanidadesP7 = new javax.swing.JLabel();
+        humanidadesP6 = new javax.swing.JLabel();
+        humanidadesP8 = new javax.swing.JLabel();
+        humanidadesP9 = new javax.swing.JLabel();
+        humanidadesP10 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
-        jTextField24 = new javax.swing.JTextField();
-        jTextField26 = new javax.swing.JTextField();
-        jTextField27 = new javax.swing.JTextField();
-        jTextField28 = new javax.swing.JTextField();
-        jTextField29 = new javax.swing.JTextField();
-        jTextField42 = new javax.swing.JTextField();
-        jTextField43 = new javax.swing.JTextField();
-        jTextField44 = new javax.swing.JTextField();
-        jTextField45 = new javax.swing.JTextField();
-        jTextField46 = new javax.swing.JTextField();
+        humanidadesR2 = new javax.swing.JTextField();
+        humanidadesR3 = new javax.swing.JTextField();
+        humanidadesR7 = new javax.swing.JTextField();
+        humanidadesR9 = new javax.swing.JTextField();
+        humanidadesR8 = new javax.swing.JTextField();
+        humanidadesR10 = new javax.swing.JTextField();
+        humanidadesR5 = new javax.swing.JTextField();
+        humanidadesR1 = new javax.swing.JTextField();
+        humanidadesR4 = new javax.swing.JTextField();
+        humanidadesR6 = new javax.swing.JTextField();
         jLabel59 = new javax.swing.JLabel();
         cronometro4 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
+        humanidadesEnviarBtn = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        humanidadesPuntajeLbl = new javax.swing.JLabel();
+        LabelTiempo3 = new javax.swing.JLabel();
         Ecosistemas = new javax.swing.JPanel();
         jSplitPane5 = new javax.swing.JSplitPane();
         jPanel15 = new javax.swing.JPanel();
-        jLabel47 = new javax.swing.JLabel();
-        jLabel48 = new javax.swing.JLabel();
-        jLabel49 = new javax.swing.JLabel();
-        jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
-        jLabel52 = new javax.swing.JLabel();
-        jLabel53 = new javax.swing.JLabel();
-        jLabel54 = new javax.swing.JLabel();
-        jLabel55 = new javax.swing.JLabel();
-        jLabel56 = new javax.swing.JLabel();
+        EcoP1 = new javax.swing.JLabel();
+        EcoP2 = new javax.swing.JLabel();
+        EcoP4 = new javax.swing.JLabel();
+        EcoP3 = new javax.swing.JLabel();
+        EcoP5 = new javax.swing.JLabel();
+        EcoP7 = new javax.swing.JLabel();
+        EcoP6 = new javax.swing.JLabel();
+        EcoP8 = new javax.swing.JLabel();
+        EcoP9 = new javax.swing.JLabel();
+        EcoP10 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
-        jTextField30 = new javax.swing.JTextField();
-        jTextField31 = new javax.swing.JTextField();
-        jTextField32 = new javax.swing.JTextField();
-        jTextField34 = new javax.swing.JTextField();
-        jTextField35 = new javax.swing.JTextField();
-        jTextField36 = new javax.swing.JTextField();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jCheckBox13 = new javax.swing.JCheckBox();
-        jCheckBox14 = new javax.swing.JCheckBox();
-        jCheckBox15 = new javax.swing.JCheckBox();
-        jTextField33 = new javax.swing.JTextField();
-        jCheckBox16 = new javax.swing.JCheckBox();
-        jCheckBox17 = new javax.swing.JCheckBox();
-        jCheckBox18 = new javax.swing.JCheckBox();
+        EcoR2 = new javax.swing.JTextField();
+        EcoR4 = new javax.swing.JTextField();
+        EcoR3 = new javax.swing.JTextField();
+        EcoR6 = new javax.swing.JTextField();
+        EcoR9 = new javax.swing.JTextField();
+        EcoR10 = new javax.swing.JTextField();
+        conejo = new javax.swing.JCheckBox();
+        leon = new javax.swing.JCheckBox();
+        hormiga = new javax.swing.JCheckBox();
+        desierto = new javax.swing.JCheckBox();
+        bosqueTropical = new javax.swing.JCheckBox();
+        tundra = new javax.swing.JCheckBox();
+        EcoR1 = new javax.swing.JTextField();
+        competencia = new javax.swing.JCheckBox();
+        simbiosis = new javax.swing.JCheckBox();
+        depredadorPresa = new javax.swing.JCheckBox();
         cronometro5 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        LabelTiempo4 = new javax.swing.JLabel();
+        ecosistemasPuntajeLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -728,6 +957,8 @@ public class Panel extends javax.swing.JFrame {
 
         jLabel7.setText("Puntaje: ");
 
+        LabelTiempo.setText("-------");
+
         javax.swing.GroupLayout EspañolLayout = new javax.swing.GroupLayout(Español);
         Español.setLayout(EspañolLayout);
         EspañolLayout.setHorizontalGroup(
@@ -738,6 +969,8 @@ public class Panel extends javax.swing.JFrame {
                     .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
                     .addGroup(EspañolLayout.createSequentialGroup()
                         .addComponent(cronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LabelTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
@@ -754,7 +987,8 @@ public class Panel extends javax.swing.JFrame {
                     .addComponent(EnviarButtonEspanol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cronometro)
                     .addComponent(LabelPuntaje)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(LabelTiempo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -990,6 +1224,8 @@ public class Panel extends javax.swing.JFrame {
 
         PuntajeMatLbl.setText("0");
 
+        LabelTiempo1.setText("----------------");
+
         javax.swing.GroupLayout MatematicasLayout = new javax.swing.GroupLayout(Matematicas);
         Matematicas.setLayout(MatematicasLayout);
         MatematicasLayout.setHorizontalGroup(
@@ -997,7 +1233,9 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(MatematicasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cronometro2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 483, Short.MAX_VALUE)
+                .addGap(93, 93, 93)
+                .addComponent(LabelTiempo1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 310, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PuntajeMatLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1015,7 +1253,9 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(MatematicasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cronometro2)
+                    .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cronometro2)
+                        .addComponent(LabelTiempo1))
                     .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(MatenviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
@@ -1290,6 +1530,8 @@ public class Panel extends javax.swing.JFrame {
 
         PuntajeInglesLabel.setText("0");
 
+        LabelTiempo2.setText("---------------");
+
         javax.swing.GroupLayout InglesLayout = new javax.swing.GroupLayout(Ingles);
         Ingles.setLayout(InglesLayout);
         InglesLayout.setHorizontalGroup(
@@ -1305,6 +1547,8 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(InglesLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(cronometro3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(101, 101, 101)
+                        .addComponent(LabelTiempo2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1326,7 +1570,8 @@ public class Panel extends javax.swing.JFrame {
                     .addComponent(cronometro3)
                     .addComponent(inglesEnviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(PuntajeInglesLabel))
+                    .addComponent(PuntajeInglesLabel)
+                    .addComponent(LabelTiempo2))
                 .addGap(135, 135, 135)
                 .addComponent(inglesP4)
                 .addGap(26, 26, 26)
@@ -1351,35 +1596,35 @@ public class Panel extends javax.swing.JFrame {
         jPanel12.setForeground(new java.awt.Color(51, 51, 51));
         jPanel12.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel37.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel37.setText("1: ¿Qué filósofo escribió La República? ");
+        humanidadesP1.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP1.setText("1: ¿Qué filósofo escribió La República? ");
 
-        jLabel38.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel38.setText("2: ¿Quién pintó la Mona Lisa? ");
+        humanidadesP2.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP2.setText("2: ¿Quién pintó la Mona Lisa? ");
 
-        jLabel39.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel39.setText("4: ¿Qué país es conocido como \"la cuna de la democracia\"? ");
+        humanidadesP4.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP4.setText("4: ¿Qué país es conocido como \"la cuna de la democracia\"? ");
 
-        jLabel40.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel40.setText("3: ¿En qué siglo cayó el Imperio Romano de Occidente? ");
+        humanidadesP3.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP3.setText("3: ¿En qué siglo cayó el Imperio Romano de Occidente? ");
 
-        jLabel41.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel41.setText("5: ¿Quién escribió El Quijote? ");
+        humanidadesP5.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP5.setText("5: ¿Quién escribió El Quijote? ");
 
-        jLabel42.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel42.setText("7: ¿Qué evento marcó el inicio de la Edad Media? ");
+        humanidadesP7.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP7.setText("7: ¿Qué evento marcó el inicio de la Edad Media? ");
 
-        jLabel43.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel43.setText("6: ¿Qué civilización construyó las pirámides de Giza? ");
+        humanidadesP6.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP6.setText("6: ¿Qué civilización construyó las pirámides de Giza? ");
 
-        jLabel44.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel44.setText("8: ¿Qué ciudad fue destruida por la erupción del Vesubio? ");
+        humanidadesP8.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP8.setText("8: ¿Qué ciudad fue destruida por la erupción del Vesubio? ");
 
-        jLabel45.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel45.setText("8: ¿Quién fue el primer emperador romano? ");
+        humanidadesP9.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP9.setText("8: ¿Quién fue el primer emperador romano? ");
 
-        jLabel46.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel46.setText("10: ¿instrumento de tortura de la Inquisición? ");
+        humanidadesP10.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP10.setText("10: ¿instrumento de tortura de la Inquisición? ");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -1388,43 +1633,43 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(humanidadesP8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP10, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(humanidadesP9, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(humanidadesP1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel37)
+                .addComponent(humanidadesP1)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel38)
+                .addComponent(humanidadesP2)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel40)
+                .addComponent(humanidadesP3)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel39)
+                .addComponent(humanidadesP4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel41)
+                .addComponent(humanidadesP5)
                 .addGap(33, 33, 33)
-                .addComponent(jLabel43)
+                .addComponent(humanidadesP6)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel42)
+                .addComponent(humanidadesP7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addComponent(humanidadesP8, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel45)
+                .addComponent(humanidadesP9)
                 .addGap(26, 26, 26)
-                .addComponent(jLabel46)
+                .addComponent(humanidadesP10)
                 .addGap(22, 22, 22))
         );
 
@@ -1436,63 +1681,63 @@ public class Panel extends javax.swing.JFrame {
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTextField24.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField24ActionPerformed(evt);
+                humanidadesR2ActionPerformed(evt);
             }
         });
 
-        jTextField26.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField26ActionPerformed(evt);
+                humanidadesR3ActionPerformed(evt);
             }
         });
 
-        jTextField27.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField27ActionPerformed(evt);
+                humanidadesR7ActionPerformed(evt);
             }
         });
 
-        jTextField28.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField28ActionPerformed(evt);
+                humanidadesR9ActionPerformed(evt);
             }
         });
 
-        jTextField29.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField29ActionPerformed(evt);
+                humanidadesR8ActionPerformed(evt);
             }
         });
 
-        jTextField42.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField42ActionPerformed(evt);
+                humanidadesR10ActionPerformed(evt);
             }
         });
 
-        jTextField43.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField43ActionPerformed(evt);
+                humanidadesR5ActionPerformed(evt);
             }
         });
 
-        jTextField44.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField44ActionPerformed(evt);
+                humanidadesR1ActionPerformed(evt);
             }
         });
 
-        jTextField45.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField45ActionPerformed(evt);
+                humanidadesR4ActionPerformed(evt);
             }
         });
 
-        jTextField46.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField46ActionPerformed(evt);
+                humanidadesR6ActionPerformed(evt);
             }
         });
 
@@ -1503,42 +1748,42 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField44, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
-                    .addComponent(jTextField24, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
-                    .addComponent(jTextField26)
-                    .addComponent(jTextField45, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField43)
-                    .addComponent(jTextField46)
-                    .addComponent(jTextField27)
-                    .addComponent(jTextField29)
-                    .addComponent(jTextField28)
-                    .addComponent(jTextField42))
+                    .addComponent(humanidadesR1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                    .addComponent(humanidadesR2)
+                    .addComponent(humanidadesR3)
+                    .addComponent(humanidadesR4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(humanidadesR5)
+                    .addComponent(humanidadesR6)
+                    .addComponent(humanidadesR7)
+                    .addComponent(humanidadesR8)
+                    .addComponent(humanidadesR9)
+                    .addComponent(humanidadesR10))
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField45, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField43, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField46, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addComponent(humanidadesR10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -1546,7 +1791,6 @@ public class Panel extends javax.swing.JFrame {
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -1554,7 +1798,7 @@ public class Panel extends javax.swing.JFrame {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 7, Short.MAX_VALUE))
         );
 
         jSplitPane4.setRightComponent(jPanel13);
@@ -1563,9 +1807,20 @@ public class Panel extends javax.swing.JFrame {
 
         cronometro4.setText("00:00:00");
 
-        jButton9.setBackground(new java.awt.Color(51, 51, 51));
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Enviar");
+        humanidadesEnviarBtn.setBackground(new java.awt.Color(51, 51, 51));
+        humanidadesEnviarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        humanidadesEnviarBtn.setText("Enviar");
+        humanidadesEnviarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                humanidadesEnviarBtnActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Puntaje:");
+
+        humanidadesPuntajeLbl.setText("0");
+
+        LabelTiempo3.setText("------------------");
 
         javax.swing.GroupLayout HumanidadesLayout = new javax.swing.GroupLayout(Humanidades);
         Humanidades.setLayout(HumanidadesLayout);
@@ -1574,11 +1829,17 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(HumanidadesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSplitPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 868, Short.MAX_VALUE)
+                    .addComponent(jSplitPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
                     .addGroup(HumanidadesLayout.createSequentialGroup()
                         .addComponent(cronometro4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(96, 96, 96)
+                        .addComponent(LabelTiempo3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(humanidadesPuntajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addComponent(humanidadesEnviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(HumanidadesLayout.createSequentialGroup()
@@ -1591,8 +1852,12 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(HumanidadesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cronometro4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                    .addComponent(cronometro4)
+                    .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(humanidadesEnviarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addComponent(humanidadesPuntajeLbl)
+                        .addComponent(LabelTiempo3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1614,35 +1879,35 @@ public class Panel extends javax.swing.JFrame {
         jPanel15.setForeground(new java.awt.Color(51, 51, 51));
         jPanel15.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel47.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel47.setText("1: ¿Permite a las plantas producir su alimento? ");
+        EcoP1.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP1.setText("1: ¿Permite a las plantas producir su alimento? ");
 
-        jLabel48.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel48.setText("2: Ecosistema caracterizado por lluvias y gran biodiversidad");
+        EcoP2.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP2.setText("2: Ecosistema caracterizado por lluvias y gran biodiversidad");
 
-        jLabel49.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel49.setText("4: ¿Cómo se llama el lugar donde vive un organismo? ");
+        EcoP4.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP4.setText("4: ¿Cómo se llama el lugar donde vive un organismo? ");
 
-        jLabel50.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel50.setText("3: ¿Qué gas producen las plantas durante la fotosíntesis? ");
+        EcoP3.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP3.setText("3: ¿Qué gas producen las plantas durante la fotosíntesis? ");
 
-        jLabel51.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel51.setText("5: ¿Qué animal es un depredador? ");
+        EcoP5.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP5.setText("5: ¿Qué animal es un depredador? ");
 
-        jLabel52.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel52.setText("7: ¿Qué ecosistema tiene inviernos largos y veranos cortos? ");
+        EcoP7.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP7.setText("7: ¿Qué ecosistema tiene inviernos largos y veranos cortos? ");
 
-        jLabel53.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel53.setText("6: ¿Qué tipo de agua hay en los ríos? ");
+        EcoP6.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP6.setText("6: ¿Qué tipo de agua hay en los ríos? ");
 
-        jLabel54.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel54.setText("8: ¿Qué relación existe entre un pez y un tiburón? ");
+        EcoP8.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP8.setText("8: ¿Qué relación existe entre un pez y un tiburón? ");
 
-        jLabel55.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel55.setText("9: ¿Qué factor es abiótico? ");
+        EcoP9.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP9.setText("9: ¿Qué factor es abiótico? ");
 
-        jLabel56.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel56.setText("10: Ecosistema  quetiene suelo arenosos y escasez de agua ");
+        EcoP10.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP10.setText("10: Ecosistema  quetiene suelo arenosos y escasez de agua ");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -1652,47 +1917,47 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(EcoP7, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel15Layout.createSequentialGroup()
                                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel50)
-                                    .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(EcoP5, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EcoP6, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EcoP8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(EcoP1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(EcoP3)
+                                    .addComponent(EcoP9, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EcoP2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(EcoP4))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel56, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(EcoP10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel47)
+                .addComponent(EcoP1)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel48)
+                .addComponent(EcoP2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jLabel50)
+                .addComponent(EcoP3)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel49)
+                .addComponent(EcoP4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel51)
+                .addComponent(EcoP5)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel53)
+                .addComponent(EcoP6)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel52)
+                .addComponent(EcoP7)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel54)
+                .addComponent(EcoP8)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel55)
+                .addComponent(EcoP9)
                 .addGap(26, 26, 26)
-                .addComponent(jLabel56)
+                .addComponent(EcoP10)
                 .addGap(35, 35, 35))
         );
 
@@ -1704,75 +1969,84 @@ public class Panel extends javax.swing.JFrame {
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
         jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTextField30.addActionListener(new java.awt.event.ActionListener() {
+        EcoR2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField30ActionPerformed(evt);
+                EcoR2ActionPerformed(evt);
             }
         });
 
-        jTextField31.addActionListener(new java.awt.event.ActionListener() {
+        EcoR4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField31ActionPerformed(evt);
+                EcoR4ActionPerformed(evt);
             }
         });
 
-        jTextField32.addActionListener(new java.awt.event.ActionListener() {
+        EcoR3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField32ActionPerformed(evt);
+                EcoR3ActionPerformed(evt);
             }
         });
 
-        jTextField34.addActionListener(new java.awt.event.ActionListener() {
+        EcoR6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField34ActionPerformed(evt);
+                EcoR6ActionPerformed(evt);
             }
         });
 
-        jTextField35.addActionListener(new java.awt.event.ActionListener() {
+        EcoR9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField35ActionPerformed(evt);
+                EcoR9ActionPerformed(evt);
             }
         });
 
-        jTextField36.addActionListener(new java.awt.event.ActionListener() {
+        EcoR10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField36ActionPerformed(evt);
+                EcoR10ActionPerformed(evt);
             }
         });
 
-        jCheckBox10.setText("Conejo");
+        EcoR5.add(conejo);
+        conejo.setText("Conejo");
 
-        jCheckBox11.setText("Leon");
+        EcoR5.add(leon);
+        leon.setText("Leon");
 
-        jCheckBox12.setText("hormiga");
+        EcoR5.add(hormiga);
+        hormiga.setText("hormiga");
 
-        jCheckBox13.setText("Desierto");
-        jCheckBox13.addActionListener(new java.awt.event.ActionListener() {
+        EcoR7.add(desierto);
+        desierto.setText("Desierto");
+        desierto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox13ActionPerformed(evt);
+                desiertoActionPerformed(evt);
             }
         });
 
-        jCheckBox14.setText("Bosque tropical");
+        EcoR7.add(bosqueTropical);
+        bosqueTropical.setText("Bosque tropical");
 
-        jCheckBox15.setText("Tundra ");
+        EcoR7.add(tundra);
+        tundra.setText("Tundra ");
 
-        jTextField33.addActionListener(new java.awt.event.ActionListener() {
+        EcoR1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField33ActionPerformed(evt);
+                EcoR1ActionPerformed(evt);
             }
         });
 
-        jCheckBox16.setText("Competencia");
-        jCheckBox16.addActionListener(new java.awt.event.ActionListener() {
+        EcoR8.add(competencia);
+        competencia.setText("Competencia");
+        competencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox16ActionPerformed(evt);
+                competenciaActionPerformed(evt);
             }
         });
 
-        jCheckBox17.setText("Simbiosis");
+        EcoR8.add(simbiosis);
+        simbiosis.setText("Simbiosis");
 
-        jCheckBox18.setText("Depredador-presa");
+        EcoR8.add(depredadorPresa);
+        depredadorPresa.setText("Depredador-presa");
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -1781,63 +2055,64 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField30, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-                    .addComponent(jTextField32)
-                    .addComponent(jTextField31)
-                    .addComponent(jTextField34)
-                    .addComponent(jTextField35)
-                    .addComponent(jTextField36)
-                    .addComponent(jTextField33, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                    .addComponent(EcoR2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                    .addComponent(EcoR3)
+                    .addComponent(EcoR4)
+                    .addComponent(EcoR6)
+                    .addComponent(EcoR9)
+                    .addComponent(EcoR10)
+                    .addComponent(EcoR1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(conejo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(102, 102, 102)
-                        .addComponent(jCheckBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(leon, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(64, 64, 64)
-                        .addComponent(jCheckBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(hormiga, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox16, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(competencia, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(desierto, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(56, 56, 56)
-                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jCheckBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox18)))))
+                            .addComponent(bosqueTropical, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(simbiosis, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(tundra, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(depredadorPresa))
+                        .addGap(27, 27, 27))))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
-                .addComponent(jTextField33, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox10)
-                    .addComponent(jCheckBox11)
-                    .addComponent(jCheckBox12))
+                    .addComponent(conejo)
+                    .addComponent(leon)
+                    .addComponent(hormiga))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox13)
-                    .addComponent(jCheckBox14)
-                    .addComponent(jCheckBox15))
+                    .addComponent(desierto)
+                    .addComponent(bosqueTropical)
+                    .addComponent(tundra))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox16)
-                    .addComponent(jCheckBox17)
-                    .addComponent(jCheckBox18))
+                    .addComponent(competencia)
+                    .addComponent(simbiosis)
+                    .addComponent(depredadorPresa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -1865,6 +2140,17 @@ public class Panel extends javax.swing.JFrame {
         jButton10.setBackground(new java.awt.Color(51, 51, 51));
         jButton10.setForeground(new java.awt.Color(255, 255, 255));
         jButton10.setText("Enviar");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Puntaje");
+
+        LabelTiempo4.setText("---------------");
+
+        ecosistemasPuntajeLbl.setText("0");
 
         javax.swing.GroupLayout EcosistemasLayout = new javax.swing.GroupLayout(Ecosistemas);
         Ecosistemas.setLayout(EcosistemasLayout);
@@ -1873,9 +2159,15 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(EcosistemasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cronometro5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 623, Short.MAX_VALUE)
+                .addGap(128, 128, 128)
+                .addComponent(LabelTiempo4)
+                .addGap(168, 168, 168)
+                .addComponent(jLabel10)
+                .addGap(42, 42, 42)
+                .addComponent(ecosistemasPuntajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18))
             .addGroup(EcosistemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(EcosistemasLayout.createSequentialGroup()
                     .addContainerGap()
@@ -1888,7 +2180,10 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(EcosistemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cronometro5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(LabelTiempo4)
+                    .addComponent(ecosistemasPuntajeLbl))
                 .addContainerGap(438, Short.MAX_VALUE))
             .addGroup(EcosistemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(EcosistemasLayout.createSequentialGroup()
@@ -1919,10 +2214,16 @@ public class Panel extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        new Creadores().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
+        
+        manejarMateriaSeleccionada(jComboBox1);
+        
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void CalcularPromBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularPromBtnActionPerformed
@@ -1965,6 +2266,11 @@ public class Panel extends javax.swing.JFrame {
           
           puntajeEspanol = 0;
           puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
+          
+          detenerTimers();
+          manejarEnviar(LabelTiempo);
           
 
         
@@ -2010,49 +2316,29 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_resEspanolp9ActionPerformed
 
-    private void jTextField24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField24ActionPerformed
+    private void EcoR2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField24ActionPerformed
+    }//GEN-LAST:event_EcoR2ActionPerformed
 
-    private void jTextField26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField26ActionPerformed
+    private void EcoR4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField26ActionPerformed
+    }//GEN-LAST:event_EcoR4ActionPerformed
 
-    private void jTextField27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField27ActionPerformed
+    private void EcoR3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField27ActionPerformed
+    }//GEN-LAST:event_EcoR3ActionPerformed
 
-    private void jTextField28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField28ActionPerformed
+    private void EcoR6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField28ActionPerformed
+    }//GEN-LAST:event_EcoR6ActionPerformed
 
-    private void jTextField29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField29ActionPerformed
+    private void EcoR9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR9ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField29ActionPerformed
+    }//GEN-LAST:event_EcoR9ActionPerformed
 
-    private void jTextField30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField30ActionPerformed
+    private void EcoR10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR10ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField30ActionPerformed
-
-    private void jTextField31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField31ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField31ActionPerformed
-
-    private void jTextField32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField32ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField32ActionPerformed
-
-    private void jTextField34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField34ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField34ActionPerformed
-
-    private void jTextField35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField35ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField35ActionPerformed
-
-    private void jTextField36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField36ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField36ActionPerformed
+    }//GEN-LAST:event_EcoR10ActionPerformed
 
     private void matRes7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes7ActionPerformed
         // TODO add your handling code here:
@@ -2094,37 +2380,17 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_matRes2ActionPerformed
 
-    private void jTextField42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField42ActionPerformed
+    private void desiertoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desiertoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField42ActionPerformed
+    }//GEN-LAST:event_desiertoActionPerformed
 
-    private void jTextField43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField43ActionPerformed
+    private void EcoR1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField43ActionPerformed
+    }//GEN-LAST:event_EcoR1ActionPerformed
 
-    private void jTextField44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField44ActionPerformed
+    private void competenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_competenciaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField44ActionPerformed
-
-    private void jTextField45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField45ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField45ActionPerformed
-
-    private void jTextField46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField46ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField46ActionPerformed
-
-    private void jCheckBox13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox13ActionPerformed
-
-    private void jTextField33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField33ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField33ActionPerformed
-
-    private void jCheckBox16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox16ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox16ActionPerformed
+    }//GEN-LAST:event_competenciaActionPerformed
 
     private void MatenviarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MatenviarBtnActionPerformed
         // TODO add your handling code here:
@@ -2143,11 +2409,13 @@ public class Panel extends javax.swing.JFrame {
         PuntajeMatLbl.setText(String.valueOf(puntajeMatematicas));  
         actualizarPuntajeEnTabla("Matematicas", puntajeMatematicas);
         
-        puntajeEspanol = 0;
-        puntajeMatematicas = 0;
-        puntajeIngles = 0;
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
         
-        
+          detenerTimers();
+          manejarEnviar(LabelTiempo1);
         
         
         
@@ -2239,11 +2507,13 @@ verificarRespuestaAbierta(inglesRes10, inglesP10, "PRETTY"); // Respuesta correc
 
 
 
-puntajeEspanol = 0;
-puntajeMatematicas = 0;
-puntajeIngles = 0;
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
 
-
+          detenerTimers();
+          manejarEnviar(LabelTiempo2);
 
           
 
@@ -2252,9 +2522,222 @@ puntajeIngles = 0;
 
     private void tabla_panelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabla_panelStateChanged
         // TODO add your handling code here:
+        
+    int indiceSeleccionado = tabla_panel.getSelectedIndex();
+    String tituloSeleccionado = tabla_panel.getTitleAt(indiceSeleccionado);
+
+    // Resetear cronómetros y timers al cambiar de pestaña
+    if ("Español".equals(tituloSeleccionado)) {
+        resetCronometro("Español");
+        timerEspanol.start();
+    } else {
+        timerEspanol.stop();
+    }
+
+    if ("Matemáticas".equals(tituloSeleccionado)) {
+        resetCronometro("Matemáticas");
+        timerMatematicas.start();
+    } else {
+        timerMatematicas.stop();
+    }
+
+    if ("Inglés".equals(tituloSeleccionado)) {
+        resetCronometro("Inglés");
+        timerIngles.start();
+    } else {
+        timerIngles.stop();
+    }
+
+    if ("Humanidades".equals(tituloSeleccionado)) {
+        resetCronometro("Humanidades");
+        timerHumanidades.start();
+    } else {
+        timerHumanidades.stop();
+    }
+
+    if ("Ecosistemas".equals(tituloSeleccionado)) {
+        resetCronometro("Ecosistemas");
+        timerEcosistemas.start();
+    } else {
+        timerEcosistemas.stop();
+    }
+}
+
+private void resetCronometro(String materia) {
+    switch (materia) {
+        case "Español":
+            horasEspanol = 0;
+            minutosEspanol = 0;
+            segundosEspanol = 0;
+            cronometro.setText("00:00:00");
+            break;
+        case "Matemáticas":
+            horasMatematicas = 0;
+            minutosMatematicas = 0;
+            segundosMatematicas = 0;
+            cronometro2.setText("00:00:00");
+            break;
+        case "Inglés":
+            horasIngles = 0;
+            minutosIngles = 0;
+            segundosIngles = 0;
+            cronometro3.setText("00:00:00");
+            break;
+        case "Humanidades":
+            horasHumanidades = 0;
+            minutosHumanidades = 0;
+            segundosHumanidades = 0;
+            cronometro4.setText("00:00:00");
+            break;
+        case "Ecosistemas":
+            horasEcosistemas = 0;
+            minutosEcosistemas = 0;
+            segundosEcosistemas = 0;
+            cronometro5.setText("00:00:00");
+            break;
+    }
 
         
     }//GEN-LAST:event_tabla_panelStateChanged
+
+    private void humanidadesEnviarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesEnviarBtnActionPerformed
+        // TODO add your handling code here:
+        
+        // Pregunta 1
+verificarRespuestaAbierta(humanidadesR1, humanidadesP1, "PLATÓN"); // Respuesta correcta: "Platón"
+
+// Pregunta 2
+verificarRespuestaAbierta(humanidadesR2, humanidadesP2, "LEONARDO DA VINCI"); // Respuesta correcta: "Leonardo da Vinci"
+
+// Pregunta 3
+verificarRespuestaAbierta(humanidadesR3, humanidadesP3, "SIGLO V"); // Respuesta correcta: "Siglo V"
+
+// Pregunta 4
+verificarRespuestaAbierta(humanidadesR4, humanidadesP4, "GRECIA"); // Respuesta correcta: "Grecia"
+
+// Pregunta 5
+verificarRespuestaAbierta(humanidadesR5, humanidadesP5, "MIGUEL DE CERVANTES"); // Respuesta correcta: "Miguel de Cervantes"
+
+// Pregunta 6
+verificarRespuestaAbierta(humanidadesR6, humanidadesP6, "EGIPCIA"); // Respuesta correcta: "Egipcia"
+
+// Pregunta 7
+verificarRespuestaAbierta(humanidadesR7, humanidadesP7, "LA CAÍDA DEL IMPERIO ROMANO DE OCCIDENTE"); // Respuesta correcta: "La caída del Imperio Romano de Occidente"
+
+// Pregunta 8
+verificarRespuestaAbierta(humanidadesR8, humanidadesP8, "POMPEYA"); // Respuesta correcta: "Pompeya"
+
+// Pregunta 9
+verificarRespuestaAbierta(humanidadesR9, humanidadesP9, "AUGUSTO"); // Respuesta correcta: "Augusto"
+
+// Pregunta 10
+verificarRespuestaAbierta(humanidadesR10, humanidadesP10, "LA RUEDA"); // Respuesta correcta: "La rueda"
+
+
+
+        humanidadesPuntajeLbl.setText(String.valueOf(puntajeHumanidades));  
+        actualizarPuntajeEnTabla("Humanidades", puntajeHumanidades);
+
+
+
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
+          
+          
+          detenerTimers();
+          manejarEnviar(LabelTiempo3);
+        
+    }//GEN-LAST:event_humanidadesEnviarBtnActionPerformed
+
+    private void humanidadesR6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR6ActionPerformed
+
+    private void humanidadesR4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR4ActionPerformed
+
+    private void humanidadesR1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR1ActionPerformed
+
+    private void humanidadesR5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR5ActionPerformed
+
+    private void humanidadesR10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR10ActionPerformed
+
+    private void humanidadesR8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR8ActionPerformed
+
+    private void humanidadesR9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR9ActionPerformed
+
+    private void humanidadesR7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR7ActionPerformed
+
+    private void humanidadesR3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR3ActionPerformed
+
+    private void humanidadesR2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR2ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        verificarRespuestaAbierta(EcoR1, EcoP1, "FOTOSINTESIS");
+        verificarRespuestaAbierta(EcoR2, EcoP2, "SELVA TROPICAL");
+        verificarRespuestaAbierta(EcoR3, EcoP3, "OXIGENO");
+        verificarRespuestaAbierta(EcoR4, EcoP4, "HABITAT");
+        
+        verificarRespuesta(leon, EcoP5, true);
+        verificarRespuesta(conejo, EcoP5, false);
+        verificarRespuesta(hormiga, EcoP5, false);
+        
+        
+        verificarRespuesta(tundra, EcoP7, true);
+        verificarRespuesta(bosqueTropical, EcoP7, false);
+        verificarRespuesta(desierto, EcoP7, false);
+        
+        
+        verificarRespuesta(depredadorPresa, EcoP8, true);
+        verificarRespuesta(simbiosis, EcoP8, false);
+        verificarRespuesta(competencia, EcoP8, false);
+        
+        verificarRespuestaAbierta(EcoR6, EcoP6, "DULCE");
+        verificarRespuestaAbierta(EcoR9, EcoP9, "AGUA");
+        verificarRespuestaAbierta(EcoR10, EcoP10, "DESIERTO");
+       
+        
+        
+        ecosistemasPuntajeLbl.setText(String.valueOf(puntajeEcosistemas));  
+        actualizarPuntajeEnTabla("Ecosistemas", puntajeEcosistemas);
+
+
+
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
+          puntajeEcosistemas = 0;
+          
+          
+          detenerTimers();
+          manejarEnviar(LabelTiempo4);
+        
+        
+        
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     
     
@@ -2265,6 +2748,26 @@ puntajeIngles = 0;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CalcularPromBtn;
+    private javax.swing.JLabel EcoP1;
+    private javax.swing.JLabel EcoP10;
+    private javax.swing.JLabel EcoP2;
+    private javax.swing.JLabel EcoP3;
+    private javax.swing.JLabel EcoP4;
+    private javax.swing.JLabel EcoP5;
+    private javax.swing.JLabel EcoP6;
+    private javax.swing.JLabel EcoP7;
+    private javax.swing.JLabel EcoP8;
+    private javax.swing.JLabel EcoP9;
+    private javax.swing.JTextField EcoR1;
+    private javax.swing.JTextField EcoR10;
+    private javax.swing.JTextField EcoR2;
+    private javax.swing.JTextField EcoR3;
+    private javax.swing.JTextField EcoR4;
+    private javax.swing.ButtonGroup EcoR5;
+    private javax.swing.JTextField EcoR6;
+    private javax.swing.ButtonGroup EcoR7;
+    private javax.swing.ButtonGroup EcoR8;
+    private javax.swing.JTextField EcoR9;
     private javax.swing.JPanel Ecosistemas;
     private javax.swing.JButton EnviarButtonEspanol;
     private javax.swing.JPanel Español;
@@ -2272,6 +2775,11 @@ puntajeIngles = 0;
     private javax.swing.JPanel Ingles;
     private javax.swing.JLabel LabelPromedio;
     private javax.swing.JLabel LabelPuntaje;
+    private javax.swing.JLabel LabelTiempo;
+    private javax.swing.JLabel LabelTiempo1;
+    private javax.swing.JLabel LabelTiempo2;
+    private javax.swing.JLabel LabelTiempo3;
+    private javax.swing.JLabel LabelTiempo4;
     private javax.swing.JPanel Matematicas;
     private javax.swing.JButton MatenviarBtn;
     private javax.swing.JPanel Panel_examen;
@@ -2279,14 +2787,20 @@ puntajeIngles = 0;
     private javax.swing.JLabel PuntajeMatLbl;
     private javax.swing.JTable TablaCalif;
     private javax.swing.JCheckBox azul;
+    private javax.swing.JCheckBox bosqueTropical;
     private javax.swing.JCheckBox child;
     private javax.swing.JCheckBox children;
     private javax.swing.JCheckBox childs;
+    private javax.swing.JCheckBox competencia;
+    private javax.swing.JCheckBox conejo;
     private javax.swing.JLabel cronometro;
     private javax.swing.JLabel cronometro2;
     private javax.swing.JLabel cronometro3;
     private javax.swing.JLabel cronometro4;
     private javax.swing.JLabel cronometro5;
+    private javax.swing.JCheckBox depredadorPresa;
+    private javax.swing.JCheckBox desierto;
+    private javax.swing.JLabel ecosistemasPuntajeLbl;
     private javax.swing.ButtonGroup espanol1;
     private javax.swing.ButtonGroup espanol7;
     private javax.swing.ButtonGroup espanol8;
@@ -2301,6 +2815,29 @@ puntajeIngles = 0;
     private javax.swing.JLabel espanolP8;
     private javax.swing.JLabel espanolP9;
     private javax.swing.JCheckBox hermoso;
+    private javax.swing.JCheckBox hormiga;
+    private javax.swing.JButton humanidadesEnviarBtn;
+    private javax.swing.JLabel humanidadesP1;
+    private javax.swing.JLabel humanidadesP10;
+    private javax.swing.JLabel humanidadesP2;
+    private javax.swing.JLabel humanidadesP3;
+    private javax.swing.JLabel humanidadesP4;
+    private javax.swing.JLabel humanidadesP5;
+    private javax.swing.JLabel humanidadesP6;
+    private javax.swing.JLabel humanidadesP7;
+    private javax.swing.JLabel humanidadesP8;
+    private javax.swing.JLabel humanidadesP9;
+    private javax.swing.JLabel humanidadesPuntajeLbl;
+    private javax.swing.JTextField humanidadesR1;
+    private javax.swing.JTextField humanidadesR10;
+    private javax.swing.JTextField humanidadesR2;
+    private javax.swing.JTextField humanidadesR3;
+    private javax.swing.JTextField humanidadesR4;
+    private javax.swing.JTextField humanidadesR5;
+    private javax.swing.JTextField humanidadesR6;
+    private javax.swing.JTextField humanidadesR7;
+    private javax.swing.JTextField humanidadesR8;
+    private javax.swing.JTextField humanidadesR9;
     private javax.swing.ButtonGroup ingles1;
     private javax.swing.JButton inglesEnviarBtn;
     private javax.swing.JLabel inglesP1;
@@ -2327,46 +2864,18 @@ puntajeIngles = 0;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox12;
-    private javax.swing.JCheckBox jCheckBox13;
-    private javax.swing.JCheckBox jCheckBox14;
-    private javax.swing.JCheckBox jCheckBox15;
-    private javax.swing.JCheckBox jCheckBox16;
-    private javax.swing.JCheckBox jCheckBox17;
-    private javax.swing.JCheckBox jCheckBox18;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
-    private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
-    private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -2389,23 +2898,7 @@ puntajeIngles = 0;
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JSplitPane jSplitPane5;
     private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField26;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
-    private javax.swing.JTextField jTextField29;
-    private javax.swing.JTextField jTextField30;
-    private javax.swing.JTextField jTextField31;
-    private javax.swing.JTextField jTextField32;
-    private javax.swing.JTextField jTextField33;
-    private javax.swing.JTextField jTextField34;
-    private javax.swing.JTextField jTextField35;
-    private javax.swing.JTextField jTextField36;
-    private javax.swing.JTextField jTextField42;
-    private javax.swing.JTextField jTextField43;
-    private javax.swing.JTextField jTextField44;
-    private javax.swing.JTextField jTextField45;
-    private javax.swing.JTextField jTextField46;
+    private javax.swing.JCheckBox leon;
     private javax.swing.JLabel matP1;
     private javax.swing.JLabel matP10;
     private javax.swing.JLabel matP2;
@@ -2437,9 +2930,11 @@ puntajeIngles = 0;
     private javax.swing.JTextField resEspanolp5;
     private javax.swing.JTextField resEspanolp6;
     private javax.swing.JTextField resEspanolp9;
+    private javax.swing.JCheckBox simbiosis;
     private javax.swing.JCheckBox simil;
     private javax.swing.JTabbedPane tabla_panel;
     private javax.swing.JCheckBox transitivo;
+    private javax.swing.JCheckBox tundra;
     // End of variables declaration//GEN-END:variables
 
 
