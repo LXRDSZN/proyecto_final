@@ -4,18 +4,349 @@
  */
 package proyecto_final;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ivang
  */
 public class Panel extends javax.swing.JFrame {
+    
+    
+    private int puntajeEspanol = 0;
+    private int puntajeMatematicas = 0;
+    private int puntajeIngles = 0;
+    private int puntajeHumanidades = 0;
+    private int puntajeEcosistemas = 0;
+    
+    
+private Timer timerEspanol, timerMatematicas, timerIngles, timerHumanidades, timerEcosistemas;
+private int horasEspanol = 0, minutosEspanol = 0, segundosEspanol = 0;
+private int horasMatematicas = 0, minutosMatematicas = 0, segundosMatematicas = 0;
+private int horasIngles = 0, minutosIngles = 0, segundosIngles = 0;
+private int horasHumanidades = 0, minutosHumanidades = 0, segundosHumanidades = 0;
+private int horasEcosistemas = 0, minutosEcosistemas = 0, segundosEcosistemas = 0;
+
+
+
+
+    
+
+
+    
 
     /**
      * Creates new form Panel
      */
     public Panel() {
+        inicializarTimers();
         initComponents();
+        
+
     }
+    
+    
+    private void inicializarTimers() {
+    // Timer para Español
+    timerEspanol = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosEspanol++;
+            if (segundosEspanol == 60) {
+                segundosEspanol = 0;
+                minutosEspanol++;
+            }
+            if (minutosEspanol == 60) {
+                minutosEspanol = 0;
+                horasEspanol++;
+            }
+            cronometro.setText(String.format("%02d:%02d:%02d", horasEspanol, minutosEspanol, segundosEspanol));
+        }
+    });
+
+    // Timer para Matemáticas
+    timerMatematicas = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosMatematicas++;
+            if (segundosMatematicas == 60) {
+                segundosMatematicas = 0;
+                minutosMatematicas++;
+            }
+            if (minutosMatematicas == 60) {
+                minutosMatematicas = 0;
+                horasMatematicas++;
+            }
+            cronometro2.setText(String.format("%02d:%02d:%02d", horasMatematicas, minutosMatematicas, segundosMatematicas));
+        }
+    });
+
+    // Timer para Inglés
+    timerIngles = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosIngles++;
+            if (segundosIngles == 60) {
+                segundosIngles = 0;
+                minutosIngles++;
+            }
+            if (minutosIngles == 60) {
+                minutosIngles = 0;
+                horasIngles++;
+            }
+            cronometro3.setText(String.format("%02d:%02d:%02d", horasIngles, minutosIngles, segundosIngles));
+        }
+    });
+
+    // Timer para Humanidades
+    timerHumanidades = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosHumanidades++;
+            if (segundosHumanidades == 60) {
+                segundosHumanidades = 0;
+                minutosHumanidades++;
+            }
+            if (minutosHumanidades == 60) {
+                minutosHumanidades = 0;
+                horasHumanidades++;
+            }
+            cronometro4.setText(String.format("%02d:%02d:%02d", horasHumanidades, minutosHumanidades, segundosHumanidades));
+        }
+    });
+
+    // Timer para Ecosistemas
+    timerEcosistemas = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            segundosEcosistemas++;
+            if (segundosEcosistemas == 60) {
+                segundosEcosistemas = 0;
+                minutosEcosistemas++;
+            }
+            if (minutosEcosistemas == 60) {
+                minutosEcosistemas = 0;
+                horasEcosistemas++;
+            }
+            cronometro5.setText(String.format("%02d:%02d:%02d", horasEcosistemas, minutosEcosistemas, segundosEcosistemas));
+        }
+    });
+}
+
+    
+    
+    
+    private void actualizarPuntajeEnTabla(String materia, double puntaje) {
+    DefaultTableModel model = (DefaultTableModel) TablaCalif.getModel();
+    int filas = model.getRowCount();
+
+    // Recorremos las filas para encontrar la materia correspondiente
+    for (int i = 0; i < filas; i++) {
+        String materiaActual = model.getValueAt(i, 0).toString(); // Obtener la materia de la primera columna
+        if (materiaActual.equals(materia)) {
+            // Actualizamos la calificación en la segunda columna
+            model.setValueAt(puntaje, i, 1);
+            break;
+        }
+    }
+}
+    
+    
+    
+    private double calcularPromedio() {
+    DefaultTableModel model = (DefaultTableModel) TablaCalif.getModel();
+    int filas = model.getRowCount();
+    double suma = 0;
+    int cantidadMaterias = 0;
+
+    // Recorremos las filas de la tabla
+    for (int i = 0; i < filas; i++) {
+        // Obtener la calificación de la columna 1 (la columna de calificación)
+        Object calificacionObj = model.getValueAt(i, 1);
+
+        // Verificar que la calificación sea un número y no un valor nulo o vacío
+        if (calificacionObj != null && !calificacionObj.toString().isEmpty()) {
+            try {
+                double calificacion = Double.parseDouble(calificacionObj.toString());
+                suma += calificacion; // Sumar la calificación
+                cantidadMaterias++; // Aumentar el contador de materias
+            } catch (NumberFormatException e) {
+                // Si no es un número, simplemente lo ignoramos
+                System.out.println("Valor no numérico en la fila " + i + ": " + calificacionObj);
+            }
+        }
+    }
+
+    // Calcular el promedio
+    if (cantidadMaterias > 0) {
+        return suma / cantidadMaterias;
+    } else {
+        return 0; // Si no hay materias con calificación, el promedio es 0
+    }
+}
+    
+    
+    private void mostrarPromedio() {
+    double promedio = calcularPromedio();
+    LabelPromedio.setText(String.format("%.2f", promedio));
+}
+
+
+    
+    
+
+    
+    private void verificarRespuesta(JCheckBox opcion, JLabel etiquetaRespuesta,  boolean esCorrecta) {
+        if (opcion.isSelected()) { // Verifica si el CheckBox está seleccionado
+            if (esCorrecta) {
+                etiquetaRespuesta.setForeground(Color.GREEN); // Cambia a verde
+                puntajeEspanol++;
+                puntajeMatematicas++;
+                puntajeIngles++;
+                puntajeHumanidades++;
+                puntajeEcosistemas++;
+            } else {
+                etiquetaRespuesta.setForeground(Color.RED); // Cambia a rojo
+            }
+        }
+     }
+    
+    
+    private void verificarRespuestaAbierta(JTextField campoRespuesta, JLabel etiquetaRespuesta, String respuestaCorrecta) {
+        String respuestaUsuario = campoRespuesta.getText().trim(); // Obtiene la respuesta del usuario y elimina espacios en blanco al inicio y final
+    
+        if (respuestaUsuario.equalsIgnoreCase(respuestaCorrecta)) { // Compara ignorando mayúsculas y minúsculas
+            etiquetaRespuesta.setForeground(Color.GREEN); // Cambia el texto a verde
+            puntajeEspanol++;
+            puntajeMatematicas++;
+            puntajeIngles++;
+            puntajeHumanidades++;
+            puntajeEcosistemas++;
+    } else {
+        etiquetaRespuesta.setForeground(Color.RED); // Cambia el texto a rojo
+    }
+}
+
+    
+private void manejarMateriaSeleccionada(JComboBox<String> comboMaterias) {
+    // Obtener la materia seleccionada
+    String materiaSeleccionada = (String) comboMaterias.getSelectedItem();
+
+    // Verificar si hay una selección
+    if (materiaSeleccionada != null) {
+        switch (materiaSeleccionada) {
+            case "Español":
+                realizarAccionEspanol();
+                break;
+            case "Matematicas":
+                realizarAccionMatematicas();
+                break;
+            case "Ingles":
+                realizarAccionIngles();
+                break;
+            case "Humanidades":
+                realizarAccionHumanidades();
+                break;
+            case "Ecosistemas":
+                realizarAccionEcosistemas();
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Materia no reconocida.");
+                break;
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Por favor, selecciona una materia.");
+    }
+}
+
+// Métodos para realizar acciones específicas
+private void realizarAccionEspanol() {
+    new Espanol().setVisible(true);
+    this.dispose();
+    // Aquí agrega lo que debe ocurrir para Español
+}
+
+private void realizarAccionMatematicas() {
+    new Matematicas().setVisible(true);
+    this.dispose();
+    // Aquí agrega lo que debe ocurrir para Matemáticas
+}
+
+private void realizarAccionIngles() {
+    new Ingles().setVisible(true);
+    this.dispose();
+    // Aquí agrega lo que debe ocurrir para Inglés
+}
+
+private void realizarAccionHumanidades() {
+    new Humanidades().setVisible(true);
+    this.dispose();
+
+    // Aquí agrega lo que debe ocurrir para Humanidades
+}
+
+private void realizarAccionEcosistemas() {
+    new Ecosistemas().setVisible(true);
+    this.dispose();
+    // Aquí agrega lo que debe ocurrir para Ecosistemas
+}
+
+    
+private void detenerTimers() {
+    timerEspanol.stop();
+    timerMatematicas.stop();
+    timerIngles.stop();
+    timerHumanidades.stop();
+    timerEcosistemas.stop();
+}
+        
+
+private int obtenerSegundosTotales() {
+    // Dependiendo de la materia seleccionada, calcular el tiempo total en segundos
+    if (tabla_panel.getSelectedIndex() == 0) {
+        return horasEspanol * 3600 + minutosEspanol * 60 + segundosEspanol;
+    } else if (tabla_panel.getSelectedIndex() == 1) {
+        return horasMatematicas * 3600 + minutosMatematicas * 60 + segundosMatematicas;
+    } else if (tabla_panel.getSelectedIndex() == 2) {
+        return horasIngles * 3600 + minutosIngles * 60 + segundosIngles;
+    } else if (tabla_panel.getSelectedIndex() == 3) {
+        return horasHumanidades * 3600 + minutosHumanidades * 60 + segundosHumanidades;
+    } else if (tabla_panel.getSelectedIndex() == 4) {
+        return horasEcosistemas * 3600 + minutosEcosistemas * 60 + segundosEcosistemas;
+    }
+    return 0;  // En caso de que no haya una pestaña seleccionada
+}
+
+
+private void manejarEnviar(JLabel labelTiempo) {
+    // Detener el Timer correspondiente al cronómetro actual
+    int segundosTotales = obtenerSegundosTotales();
+
+    // Verificar si ha pasado más de 1 minuto (60 segundos)
+    if (segundosTotales > 60) {
+        labelTiempo.setText("Fuera de tiempo");
+        labelTiempo.setForeground(Color.RED);  // Cambiar a rojo
+    } else {
+        labelTiempo.setText("A tiempo");
+        labelTiempo.setForeground(Color.GREEN);  // Cambiar a verde
+    }
+
+    // Detener el Timer
+    detenerTimers();
+}
+        
+        
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,6 +357,13 @@ public class Panel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        espanol1 = new javax.swing.ButtonGroup();
+        espanol7 = new javax.swing.ButtonGroup();
+        espanol8 = new javax.swing.ButtonGroup();
+        ingles1 = new javax.swing.ButtonGroup();
+        EcoR5 = new javax.swing.ButtonGroup();
+        EcoR7 = new javax.swing.ButtonGroup();
+        EcoR8 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tabla_panel = new javax.swing.JTabbedPane();
@@ -37,162 +375,176 @@ public class Panel extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
+        TablaCalif = new javax.swing.JTable();
+        CalcularPromBtn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        LabelPromedio = new javax.swing.JLabel();
         Español = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        espanolP1 = new javax.swing.JLabel();
+        espanolP2 = new javax.swing.JLabel();
+        espanolP4 = new javax.swing.JLabel();
+        espanolP3 = new javax.swing.JLabel();
+        espanolP5 = new javax.swing.JLabel();
+        espanolP7 = new javax.swing.JLabel();
+        espanolP6 = new javax.swing.JLabel();
+        espanolP8 = new javax.swing.JLabel();
+        espanolP9 = new javax.swing.JLabel();
+        espanolP10 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        mesa = new javax.swing.JCheckBox();
+        azul = new javax.swing.JCheckBox();
+        hermoso = new javax.swing.JCheckBox();
+        resEspanolp2 = new javax.swing.JTextField();
+        resEspanolp4 = new javax.swing.JTextField();
+        resEspanolp3 = new javax.swing.JTextField();
+        resEspanolp5 = new javax.swing.JTextField();
+        transitivo = new javax.swing.JCheckBox();
+        intransitivo = new javax.swing.JCheckBox();
+        reflexivo = new javax.swing.JCheckBox();
+        metafora = new javax.swing.JCheckBox();
+        simil = new javax.swing.JCheckBox();
+        personificacion = new javax.swing.JCheckBox();
+        resEspanolp6 = new javax.swing.JTextField();
+        resEspanolp9 = new javax.swing.JTextField();
+        resEspanolp10 = new javax.swing.JTextField();
+        cronometro = new javax.swing.JLabel();
+        EnviarButtonEspanol = new javax.swing.JButton();
+        LabelPuntaje = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        LabelTiempo = new javax.swing.JLabel();
         Matematicas = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
+        matP1 = new javax.swing.JLabel();
+        matP2 = new javax.swing.JLabel();
+        matP4 = new javax.swing.JLabel();
+        matP3 = new javax.swing.JLabel();
+        matP5 = new javax.swing.JLabel();
+        matP7 = new javax.swing.JLabel();
+        matP6 = new javax.swing.JLabel();
+        matP8 = new javax.swing.JLabel();
+        matP9 = new javax.swing.JLabel();
+        matP10 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField37 = new javax.swing.JTextField();
-        jTextField38 = new javax.swing.JTextField();
-        jTextField39 = new javax.swing.JTextField();
-        jLabel57 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        matRes2 = new javax.swing.JTextField();
+        matRes4 = new javax.swing.JTextField();
+        matRes3 = new javax.swing.JTextField();
+        matRes5 = new javax.swing.JTextField();
+        matRes6 = new javax.swing.JTextField();
+        matRes9 = new javax.swing.JTextField();
+        matRes10 = new javax.swing.JTextField();
+        matRes1 = new javax.swing.JTextField();
+        matRes8 = new javax.swing.JTextField();
+        matRes7 = new javax.swing.JTextField();
+        cronometro2 = new javax.swing.JLabel();
+        MatenviarBtn = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        PuntajeMatLbl = new javax.swing.JLabel();
+        LabelTiempo1 = new javax.swing.JLabel();
         Ingles = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel9 = new javax.swing.JPanel();
-        jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
-        jLabel35 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
+        inglesP1 = new javax.swing.JLabel();
+        inglesP2 = new javax.swing.JLabel();
+        inglesP3 = new javax.swing.JLabel();
+        inglesP7 = new javax.swing.JLabel();
+        inglesP6 = new javax.swing.JLabel();
+        inglesP8 = new javax.swing.JLabel();
+        inglesP9 = new javax.swing.JLabel();
+        inglesP10 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
-        jCheckBox19 = new javax.swing.JCheckBox();
-        jCheckBox20 = new javax.swing.JCheckBox();
-        jCheckBox21 = new javax.swing.JCheckBox();
-        jTextField16 = new javax.swing.JTextField();
-        jTextField17 = new javax.swing.JTextField();
-        jTextField18 = new javax.swing.JTextField();
-        jTextField19 = new javax.swing.JTextField();
-        jTextField20 = new javax.swing.JTextField();
-        jTextField21 = new javax.swing.JTextField();
-        jTextField40 = new javax.swing.JTextField();
-        jTextField41 = new javax.swing.JTextField();
-        jTextField23 = new javax.swing.JTextField();
+        childs = new javax.swing.JCheckBox();
+        children = new javax.swing.JCheckBox();
+        child = new javax.swing.JCheckBox();
+        inglesRes2 = new javax.swing.JTextField();
+        inglesRes4 = new javax.swing.JTextField();
+        inglesRes3 = new javax.swing.JTextField();
+        inglesRes5 = new javax.swing.JTextField();
+        inglesRes6 = new javax.swing.JTextField();
+        inglesRes10 = new javax.swing.JTextField();
+        inglesRes7 = new javax.swing.JTextField();
+        inglesRes8 = new javax.swing.JTextField();
+        inglesRes9 = new javax.swing.JTextField();
         jTextField22 = new javax.swing.JTextField();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel58 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
+        inglesP5 = new javax.swing.JLabel();
+        inglesP4 = new javax.swing.JLabel();
+        cronometro3 = new javax.swing.JLabel();
+        inglesEnviarBtn = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        PuntajeInglesLabel = new javax.swing.JLabel();
+        LabelTiempo2 = new javax.swing.JLabel();
         Humanidades = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
         jPanel12 = new javax.swing.JPanel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel38 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
-        jLabel45 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
+        humanidadesP1 = new javax.swing.JLabel();
+        humanidadesP2 = new javax.swing.JLabel();
+        humanidadesP4 = new javax.swing.JLabel();
+        humanidadesP3 = new javax.swing.JLabel();
+        humanidadesP5 = new javax.swing.JLabel();
+        humanidadesP7 = new javax.swing.JLabel();
+        humanidadesP6 = new javax.swing.JLabel();
+        humanidadesP8 = new javax.swing.JLabel();
+        humanidadesP9 = new javax.swing.JLabel();
+        humanidadesP10 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
-        jTextField24 = new javax.swing.JTextField();
-        jTextField26 = new javax.swing.JTextField();
-        jTextField27 = new javax.swing.JTextField();
-        jTextField28 = new javax.swing.JTextField();
-        jTextField29 = new javax.swing.JTextField();
-        jTextField42 = new javax.swing.JTextField();
-        jTextField43 = new javax.swing.JTextField();
-        jTextField44 = new javax.swing.JTextField();
-        jTextField45 = new javax.swing.JTextField();
-        jTextField46 = new javax.swing.JTextField();
+        humanidadesR2 = new javax.swing.JTextField();
+        humanidadesR3 = new javax.swing.JTextField();
+        humanidadesR7 = new javax.swing.JTextField();
+        humanidadesR9 = new javax.swing.JTextField();
+        humanidadesR8 = new javax.swing.JTextField();
+        humanidadesR10 = new javax.swing.JTextField();
+        humanidadesR5 = new javax.swing.JTextField();
+        humanidadesR1 = new javax.swing.JTextField();
+        humanidadesR4 = new javax.swing.JTextField();
+        humanidadesR6 = new javax.swing.JTextField();
         jLabel59 = new javax.swing.JLabel();
-        jLabel60 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        cronometro4 = new javax.swing.JLabel();
+        humanidadesEnviarBtn = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        humanidadesPuntajeLbl = new javax.swing.JLabel();
+        LabelTiempo3 = new javax.swing.JLabel();
         Ecosistemas = new javax.swing.JPanel();
         jSplitPane5 = new javax.swing.JSplitPane();
         jPanel15 = new javax.swing.JPanel();
-        jLabel47 = new javax.swing.JLabel();
-        jLabel48 = new javax.swing.JLabel();
-        jLabel49 = new javax.swing.JLabel();
-        jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
-        jLabel52 = new javax.swing.JLabel();
-        jLabel53 = new javax.swing.JLabel();
-        jLabel54 = new javax.swing.JLabel();
-        jLabel55 = new javax.swing.JLabel();
-        jLabel56 = new javax.swing.JLabel();
+        EcoP1 = new javax.swing.JLabel();
+        EcoP2 = new javax.swing.JLabel();
+        EcoP4 = new javax.swing.JLabel();
+        EcoP3 = new javax.swing.JLabel();
+        EcoP5 = new javax.swing.JLabel();
+        EcoP7 = new javax.swing.JLabel();
+        EcoP6 = new javax.swing.JLabel();
+        EcoP8 = new javax.swing.JLabel();
+        EcoP9 = new javax.swing.JLabel();
+        EcoP10 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
-        jTextField30 = new javax.swing.JTextField();
-        jTextField31 = new javax.swing.JTextField();
-        jTextField32 = new javax.swing.JTextField();
-        jTextField34 = new javax.swing.JTextField();
-        jTextField35 = new javax.swing.JTextField();
-        jTextField36 = new javax.swing.JTextField();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jCheckBox13 = new javax.swing.JCheckBox();
-        jCheckBox14 = new javax.swing.JCheckBox();
-        jCheckBox15 = new javax.swing.JCheckBox();
-        jTextField33 = new javax.swing.JTextField();
-        jCheckBox16 = new javax.swing.JCheckBox();
-        jCheckBox17 = new javax.swing.JCheckBox();
-        jCheckBox18 = new javax.swing.JCheckBox();
-        jLabel61 = new javax.swing.JLabel();
+        EcoR2 = new javax.swing.JTextField();
+        EcoR4 = new javax.swing.JTextField();
+        EcoR3 = new javax.swing.JTextField();
+        EcoR6 = new javax.swing.JTextField();
+        EcoR9 = new javax.swing.JTextField();
+        EcoR10 = new javax.swing.JTextField();
+        conejo = new javax.swing.JCheckBox();
+        leon = new javax.swing.JCheckBox();
+        hormiga = new javax.swing.JCheckBox();
+        desierto = new javax.swing.JCheckBox();
+        bosqueTropical = new javax.swing.JCheckBox();
+        tundra = new javax.swing.JCheckBox();
+        EcoR1 = new javax.swing.JTextField();
+        competencia = new javax.swing.JCheckBox();
+        simbiosis = new javax.swing.JCheckBox();
+        depredadorPresa = new javax.swing.JCheckBox();
+        cronometro5 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        LabelTiempo4 = new javax.swing.JLabel();
+        ecosistemasPuntajeLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -200,15 +552,18 @@ public class Panel extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Selección De Materias");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, -5, -1, 40));
 
         tabla_panel.setBackground(new java.awt.Color(255, 255, 255));
         tabla_panel.setForeground(new java.awt.Color(51, 51, 51));
+        tabla_panel.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabla_panelStateChanged(evt);
+            }
+        });
 
         Panel_examen.setBackground(new java.awt.Color(255, 255, 255));
-        Panel_examen.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto_final/Images/CECYTE_MORELOS-356517594.png"))); // NOI18N
         jLabel2.setLabelFor(tabla_panel);
@@ -240,7 +595,7 @@ public class Panel extends javax.swing.JFrame {
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Ver Calificacion");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaCalif.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Español", null},
                 {"Matematicas", null},
@@ -252,16 +607,16 @@ public class Panel extends javax.swing.JFrame {
                 "Materias", "Calificacion"
             }
         ));
-        jTable1.setEnabled(false);
-        jScrollPane1.setViewportView(jTable1);
+        TablaCalif.setEnabled(false);
+        jScrollPane1.setViewportView(TablaCalif);
 
-        jButton4.setBackground(new java.awt.Color(51, 51, 51));
-        jButton4.setFont(new java.awt.Font("Segoe UI Historic", 0, 12)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Calcular");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        CalcularPromBtn.setBackground(new java.awt.Color(51, 51, 51));
+        CalcularPromBtn.setFont(new java.awt.Font("Segoe UI Historic", 0, 12)); // NOI18N
+        CalcularPromBtn.setForeground(new java.awt.Color(255, 255, 255));
+        CalcularPromBtn.setText("Calcular");
+        CalcularPromBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                CalcularPromBtnActionPerformed(evt);
             }
         });
 
@@ -275,11 +630,8 @@ public class Panel extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("Calcular la calificaciòn ");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
+        LabelPromedio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        LabelPromedio.setText("0");
 
         javax.swing.GroupLayout Panel_examenLayout = new javax.swing.GroupLayout(Panel_examen);
         Panel_examen.setLayout(Panel_examenLayout);
@@ -297,19 +649,18 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(Panel_examenLayout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(Panel_examenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CalcularPromBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(Panel_examenLayout.createSequentialGroup()
                         .addGroup(Panel_examenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(Panel_examenLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel2)))
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel2))
+                    .addGroup(Panel_examenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(LabelPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         Panel_examenLayout.setVerticalGroup(
@@ -329,16 +680,16 @@ public class Panel extends javax.swing.JFrame {
                                 .addComponent(jButton2)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton3)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addGap(19, 19, 19)
                 .addGroup(Panel_examenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CalcularPromBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(Panel_examenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelPromedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(83, 83, 83))
         );
 
@@ -353,35 +704,35 @@ public class Panel extends javax.swing.JFrame {
         jPanel3.setForeground(new java.awt.Color(51, 51, 51));
         jPanel3.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("1: ¿Cuál es un sustantivo?");
+        espanolP1.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP1.setText("1: ¿Cuál es un sustantivo?");
 
-        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel7.setText("2: ¿Qué tipo de palabra es \"rápidamente\"?");
+        espanolP2.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP2.setText("2: ¿Qué tipo de palabra es \"rápidamente\"?");
 
-        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel9.setText("4: ¿Qué es un sinónimo de \"feliz\"?");
+        espanolP4.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP4.setText("4: ¿Qué es un sinónimo de \"feliz\"?");
 
-        jLabel10.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel10.setText("3: ¿Cuál es una palabra grave?");
+        espanolP3.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP3.setText("3: ¿Cuál es una palabra grave?");
 
-        jLabel11.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel11.setText("5: ¿Qué tipo de oración es \"¡Qué bonito día!\"?");
+        espanolP5.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP5.setText("5: ¿Qué tipo de oración es \"¡Qué bonito día!\"?");
 
-        jLabel12.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel12.setText("7: ¿Qué tipo de verbo es \"correr\"?");
+        espanolP7.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP7.setText("7: ¿Qué tipo de verbo es \"correr\"?");
 
-        jLabel13.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel13.setText("6: ¿Qué significa la palabra \"homónimos\"?");
+        espanolP6.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP6.setText("6: ¿Qué significa la palabra \"homónimos\"?");
 
-        jLabel14.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel14.setText("8: ¿Qué  literaria compara dos elementos usando \"como\"?");
+        espanolP8.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP8.setText("8: ¿Qué  literaria compara dos elementos usando \"como\"?");
 
-        jLabel15.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel15.setText("9: ¿Qué tipo de tilde tiene la palabra \"canción\"?");
+        espanolP9.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP9.setText("9: ¿Qué tipo de tilde tiene la palabra \"canción\"?");
 
-        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel16.setText("10:¿Qué es una fábula?");
+        espanolP10.setForeground(new java.awt.Color(51, 51, 51));
+        espanolP10.setText("10:¿Qué es una fábula?");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -390,41 +741,41 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
+                    .addComponent(espanolP10, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(espanolP2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(espanolP3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(espanolP4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(espanolP5, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(espanolP6, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(espanolP7, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(espanolP8)
+                    .addComponent(espanolP9)
+                    .addComponent(espanolP1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jLabel4)
+                .addComponent(espanolP1)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel7)
+                .addComponent(espanolP2)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel10)
+                .addComponent(espanolP3)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel9)
+                .addComponent(espanolP4)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel11)
+                .addComponent(espanolP5)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel13)
+                .addComponent(espanolP6)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel12)
+                .addComponent(espanolP7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jLabel14)
+                .addComponent(espanolP8)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel15)
+                .addComponent(espanolP9)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel16)
+                .addComponent(espanolP10)
                 .addGap(30, 30, 30))
         );
 
@@ -433,88 +784,89 @@ public class Panel extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jCheckBox4.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox4.setForeground(new java.awt.Color(51, 51, 51));
-        jCheckBox4.setText("Mesa ");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+        mesa.setBackground(new java.awt.Color(255, 255, 255));
+        espanol1.add(mesa);
+        mesa.setForeground(new java.awt.Color(51, 51, 51));
+        mesa.setText("Mesa ");
+        mesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
+                mesaActionPerformed(evt);
             }
         });
 
-        jCheckBox5.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox5.setText("Azul");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+        espanol1.add(azul);
+        azul.setText("Azul");
+        azul.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
+                azulActionPerformed(evt);
             }
         });
 
-        jCheckBox6.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox6.setText("Hermoso");
+        espanol1.add(hermoso);
+        hermoso.setText("Hermoso");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        resEspanolp2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                resEspanolp2ActionPerformed(evt);
             }
         });
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        resEspanolp4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                resEspanolp4ActionPerformed(evt);
             }
         });
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        resEspanolp3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                resEspanolp3ActionPerformed(evt);
             }
         });
 
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        resEspanolp5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                resEspanolp5ActionPerformed(evt);
             }
         });
 
-        jCheckBox1.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox1.setText("Declarativa");
+        espanol7.add(transitivo);
+        transitivo.setText("Transitivo");
 
-        jCheckBox2.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox2.setText("Exclamativa");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+        espanol7.add(intransitivo);
+        intransitivo.setText("Intransitivo");
+        intransitivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
+                intransitivoActionPerformed(evt);
             }
         });
 
-        jCheckBox3.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox3.setText("Interrogativa");
+        espanol7.add(reflexivo);
+        reflexivo.setText("Reflexivo");
 
-        jCheckBox7.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox7.setText("Metáfora");
+        espanol8.add(metafora);
+        metafora.setText("Metáfora");
 
-        jCheckBox8.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox8.setText(" Símil");
+        espanol8.add(simil);
+        simil.setText(" Símil");
 
-        jCheckBox9.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox9.setText("Personificación");
+        espanol8.add(personificacion);
+        personificacion.setText("Personificación");
 
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        resEspanolp6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                resEspanolp6ActionPerformed(evt);
             }
         });
 
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        resEspanolp9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                resEspanolp9ActionPerformed(evt);
             }
         });
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        resEspanolp10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                resEspanolp10ActionPerformed(evt);
             }
         });
 
@@ -525,81 +877,87 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2)
+                    .addComponent(resEspanolp2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(99, 99, 99)
-                        .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
-                        .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(azul, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                        .addComponent(hermoso, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(transitivo, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(personificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(70, 70, 70)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(intransitivo, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(simil, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(metafora, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reflexivo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24))
-                    .addComponent(jTextField5)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField7)
-                    .addComponent(jTextField6)
-                    .addComponent(jTextField8)
-                    .addComponent(jTextField4)))
+                    .addComponent(resEspanolp3)
+                    .addComponent(resEspanolp4)
+                    .addComponent(resEspanolp6)
+                    .addComponent(resEspanolp5)
+                    .addComponent(resEspanolp9)
+                    .addComponent(resEspanolp10)))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox6))
+                    .addComponent(mesa)
+                    .addComponent(azul)
+                    .addComponent(hermoso))
                 .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resEspanolp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resEspanolp3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resEspanolp4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resEspanolp5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resEspanolp6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(transitivo)
+                    .addComponent(intransitivo)
+                    .addComponent(reflexivo))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox9)
-                    .addComponent(jCheckBox8)
-                    .addComponent(jCheckBox7))
+                    .addComponent(personificacion)
+                    .addComponent(simil)
+                    .addComponent(metafora))
                 .addGap(18, 18, 18)
-                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resEspanolp9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(resEspanolp10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         jSplitPane1.setRightComponent(jPanel6);
 
-        jLabel5.setText("Aca ira un cronometro");
+        cronometro.setText("00:00:00");
 
-        jButton5.setBackground(new java.awt.Color(51, 51, 51));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Enviar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        EnviarButtonEspanol.setBackground(new java.awt.Color(51, 51, 51));
+        EnviarButtonEspanol.setForeground(new java.awt.Color(255, 255, 255));
+        EnviarButtonEspanol.setText("Enviar");
+        EnviarButtonEspanol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                EnviarButtonEspanolActionPerformed(evt);
             }
         });
+
+        LabelPuntaje.setText("0");
+
+        jLabel7.setText("Puntaje: ");
+
+        LabelTiempo.setText("-------");
 
         javax.swing.GroupLayout EspañolLayout = new javax.swing.GroupLayout(Español);
         Español.setLayout(EspañolLayout);
@@ -608,11 +966,17 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(EspañolLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(EspañolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
                     .addGroup(EspañolLayout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LabelTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(LabelPuntaje, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(EnviarButtonEspanol, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         EspañolLayout.setVerticalGroup(
@@ -620,8 +984,11 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(EspañolLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(EspañolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(EnviarButtonEspanol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cronometro)
+                    .addComponent(LabelPuntaje)
+                    .addComponent(jLabel7)
+                    .addComponent(LabelTiempo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -637,35 +1004,35 @@ public class Panel extends javax.swing.JFrame {
         jPanel4.setForeground(new java.awt.Color(51, 51, 51));
         jPanel4.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel17.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel17.setText("1: ¿Cuál es el resultado de  8 + 7?");
+        matP1.setForeground(new java.awt.Color(51, 51, 51));
+        matP1.setText("1: ¿Cuál es el resultado de  8 + 7?");
 
-        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel18.setText("2: ¿Cuánto es  9 × 6 ?");
+        matP2.setForeground(new java.awt.Color(51, 51, 51));
+        matP2.setText("2: ¿Cuánto es  9 × 6 ?");
 
-        jLabel19.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel19.setText("4: ¿Cuánto es  15 − 9 ?");
+        matP4.setForeground(new java.awt.Color(51, 51, 51));
+        matP4.setText("4: ¿Cuánto es  15 − 9 ?");
 
-        jLabel20.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel20.setText("3: ¿Cuál es la raíz cuadrada de 49?");
+        matP3.setForeground(new java.awt.Color(51, 51, 51));
+        matP3.setText("3: ¿Cuál es la raíz cuadrada de 49?");
 
-        jLabel21.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel21.setText("5: ¿Cuánto es  3  ** 2 ?");
+        matP5.setForeground(new java.awt.Color(51, 51, 51));
+        matP5.setText("5: ¿Cuánto es  3  ** 2 ?");
 
-        jLabel22.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel22.setText("7: Un triangulo tiene dos lados iguales, ¿cómo se llama?");
+        matP7.setForeground(new java.awt.Color(51, 51, 51));
+        matP7.setText("7: Un triangulo tiene dos lados iguales, ¿cómo se llama?");
 
-        jLabel23.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel23.setText("6: ¿Cuál es el valor de  8 / 2 ?");
+        matP6.setForeground(new java.awt.Color(51, 51, 51));
+        matP6.setText("6: ¿Cuál es el valor de  8 / 2 ?");
 
-        jLabel24.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel24.setText("8: ¿Cuánto es  25 % de 100?");
+        matP8.setForeground(new java.awt.Color(51, 51, 51));
+        matP8.setText("8: ¿Cuánto es  25 % de 100?");
 
-        jLabel25.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel25.setText("9: Si  𝑥 + 3 = 7 , ¿cuánto vale  𝑥 ?");
+        matP9.setForeground(new java.awt.Color(51, 51, 51));
+        matP9.setText("9: Si  𝑥 + 3 = 7 , ¿cuánto vale  𝑥 ?");
 
-        jLabel26.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel26.setText("10: ¿Cuánto es  10**0 ?");
+        matP10.setForeground(new java.awt.Color(51, 51, 51));
+        matP10.setText("10: ¿Cuánto es  10**0 ?");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -674,18 +1041,18 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(matP7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(matP10, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP5, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP6, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP8)
+                            .addComponent(matP1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP9, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(matP3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -693,25 +1060,25 @@ public class Panel extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jLabel17)
+                .addComponent(matP1)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel18)
+                .addComponent(matP2)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel20)
+                .addComponent(matP3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel19)
+                .addComponent(matP4)
                 .addGap(32, 32, 32)
-                .addComponent(jLabel21)
+                .addComponent(matP5)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel23)
+                .addComponent(matP6)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel22)
+                .addComponent(matP7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel24)
+                .addComponent(matP8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jLabel25)
+                .addComponent(matP9)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matP10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
 
@@ -736,63 +1103,63 @@ public class Panel extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        matRes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                matRes2ActionPerformed(evt);
             }
         });
 
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+        matRes4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                matRes4ActionPerformed(evt);
             }
         });
 
-        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+        matRes3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
+                matRes3ActionPerformed(evt);
             }
         });
 
-        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+        matRes5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField12ActionPerformed(evt);
+                matRes5ActionPerformed(evt);
             }
         });
 
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
+        matRes6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
+                matRes6ActionPerformed(evt);
             }
         });
 
-        jTextField14.addActionListener(new java.awt.event.ActionListener() {
+        matRes9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField14ActionPerformed(evt);
+                matRes9ActionPerformed(evt);
             }
         });
 
-        jTextField15.addActionListener(new java.awt.event.ActionListener() {
+        matRes10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField15ActionPerformed(evt);
+                matRes10ActionPerformed(evt);
             }
         });
 
-        jTextField37.addActionListener(new java.awt.event.ActionListener() {
+        matRes1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField37ActionPerformed(evt);
+                matRes1ActionPerformed(evt);
             }
         });
 
-        jTextField38.addActionListener(new java.awt.event.ActionListener() {
+        matRes8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField38ActionPerformed(evt);
+                matRes8ActionPerformed(evt);
             }
         });
 
-        jTextField39.addActionListener(new java.awt.event.ActionListener() {
+        matRes7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField39ActionPerformed(evt);
+                matRes7ActionPerformed(evt);
             }
         });
 
@@ -803,55 +1170,61 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
-                    .addComponent(jTextField11)
-                    .addComponent(jTextField10)
-                    .addComponent(jTextField13)
-                    .addComponent(jTextField12)
-                    .addComponent(jTextField14)
-                    .addComponent(jTextField15)
-                    .addComponent(jTextField37, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
-                    .addComponent(jTextField38)
-                    .addComponent(jTextField39)))
+                    .addComponent(matRes2, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addComponent(matRes3)
+                    .addComponent(matRes4)
+                    .addComponent(matRes6)
+                    .addComponent(matRes5)
+                    .addComponent(matRes9)
+                    .addComponent(matRes10)
+                    .addComponent(matRes1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addComponent(matRes8)
+                    .addComponent(matRes7)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(matRes10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jSplitPane2.setRightComponent(jPanel8);
 
-        jLabel57.setText("Aca ira un cronometro");
+        cronometro2.setText("00:00:00");
 
-        jButton6.setBackground(new java.awt.Color(51, 51, 51));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Enviar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        MatenviarBtn.setBackground(new java.awt.Color(51, 51, 51));
+        MatenviarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        MatenviarBtn.setText("Enviar");
+        MatenviarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                MatenviarBtnActionPerformed(evt);
             }
         });
+
+        jLabel4.setText("Puntaje:");
+
+        PuntajeMatLbl.setText("0");
+
+        LabelTiempo1.setText("----------------");
 
         javax.swing.GroupLayout MatematicasLayout = new javax.swing.GroupLayout(Matematicas);
         Matematicas.setLayout(MatematicasLayout);
@@ -859,9 +1232,15 @@ public class Panel extends javax.swing.JFrame {
             MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MatematicasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cronometro2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93)
+                .addComponent(LabelTiempo1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 310, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PuntajeMatLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(MatenviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MatematicasLayout.createSequentialGroup()
@@ -874,8 +1253,13 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(MatematicasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel57)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cronometro2)
+                        .addComponent(LabelTiempo1))
+                    .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(MatenviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(PuntajeMatLbl)))
                 .addContainerGap(437, Short.MAX_VALUE))
             .addGroup(MatematicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MatematicasLayout.createSequentialGroup()
@@ -895,29 +1279,29 @@ public class Panel extends javax.swing.JFrame {
         jPanel9.setForeground(new java.awt.Color(51, 51, 51));
         jPanel9.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel27.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel27.setText("1: What is the plural form of \"child\"?");
+        inglesP1.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP1.setText("1: What is the plural form of \"child\"?");
 
-        jLabel28.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel28.setText("2: What does \"hello\" mean in Spanish? ");
+        inglesP2.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP2.setText("2: What does \"hello\" mean in Spanish? ");
 
-        jLabel30.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel30.setText("3: What is the correct translation of \"I am happy\"? ");
+        inglesP3.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP3.setText("3: What is the correct translation of \"I am happy\"? ");
 
-        jLabel32.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel32.setText("7: How do you say \"rojo\" in English? ");
+        inglesP7.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP7.setText("7: How do you say \"rojo\" in English? ");
 
-        jLabel33.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel33.setText("6: What does \"big\" mean? ");
+        inglesP6.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP6.setText("6: What does \"big\" mean? ");
 
-        jLabel34.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel34.setText("8: What is the opposite of \"happy\"? ");
+        inglesP8.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP8.setText("8: What is the opposite of \"happy\"? ");
 
-        jLabel35.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel35.setText("9: How do you say \"ventana\" in English? ");
+        inglesP9.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP9.setText("9: How do you say \"ventana\" in English? ");
 
-        jLabel36.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel36.setText("10: Which is a correct synonym for \"beautiful\"? ");
+        inglesP10.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP10.setText("10: Which is a correct synonym for \"beautiful\"? ");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -926,35 +1310,35 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel34)
-                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel36)
-                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel30)
-                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inglesP8)
+                    .addComponent(inglesP9, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inglesP1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inglesP10)
+                    .addComponent(inglesP7, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inglesP6, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inglesP3)
+                    .addComponent(inglesP2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jLabel27)
+                .addComponent(inglesP1)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel28)
+                .addComponent(inglesP2)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel30)
+                .addComponent(inglesP3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
-                .addComponent(jLabel33)
+                .addComponent(inglesP6)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel32)
+                .addComponent(inglesP7)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel34)
+                .addComponent(inglesP8)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel35)
+                .addComponent(inglesP9)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel36)
+                .addComponent(inglesP10)
                 .addGap(20, 20, 20))
         );
 
@@ -966,77 +1350,78 @@ public class Panel extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jCheckBox19.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox19.setForeground(new java.awt.Color(51, 51, 51));
-        jCheckBox19.setText("Childs ");
-        jCheckBox19.addActionListener(new java.awt.event.ActionListener() {
+        childs.setBackground(new java.awt.Color(255, 255, 255));
+        ingles1.add(childs);
+        childs.setForeground(new java.awt.Color(51, 51, 51));
+        childs.setText("Childs ");
+        childs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox19ActionPerformed(evt);
+                childsActionPerformed(evt);
             }
         });
 
-        jCheckBox20.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox20.setText("Children ");
-        jCheckBox20.addActionListener(new java.awt.event.ActionListener() {
+        ingles1.add(children);
+        children.setText("Children ");
+        children.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox20ActionPerformed(evt);
+                childrenActionPerformed(evt);
             }
         });
 
-        jCheckBox21.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox21.setText("Child");
+        ingles1.add(child);
+        child.setText("Child");
 
-        jTextField16.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField16ActionPerformed(evt);
+                inglesRes2ActionPerformed(evt);
             }
         });
 
-        jTextField17.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField17ActionPerformed(evt);
+                inglesRes4ActionPerformed(evt);
             }
         });
 
-        jTextField18.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField18ActionPerformed(evt);
+                inglesRes3ActionPerformed(evt);
             }
         });
 
-        jTextField19.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField19ActionPerformed(evt);
+                inglesRes5ActionPerformed(evt);
             }
         });
 
-        jTextField20.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField20ActionPerformed(evt);
+                inglesRes6ActionPerformed(evt);
             }
         });
 
-        jTextField21.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField21ActionPerformed(evt);
+                inglesRes10ActionPerformed(evt);
             }
         });
 
-        jTextField40.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField40ActionPerformed(evt);
+                inglesRes7ActionPerformed(evt);
             }
         });
 
-        jTextField41.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField41ActionPerformed(evt);
+                inglesRes8ActionPerformed(evt);
             }
         });
 
-        jTextField23.addActionListener(new java.awt.event.ActionListener() {
+        inglesRes9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField23ActionPerformed(evt);
+                inglesRes9ActionPerformed(evt);
             }
         });
 
@@ -1046,54 +1431,54 @@ public class Panel extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(childs, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(94, 94, 94)
-                .addComponent(jCheckBox20, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(children, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
-                .addComponent(jCheckBox21, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(child, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField21, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField23)
-                    .addComponent(jTextField41)
-                    .addComponent(jTextField40)
-                    .addComponent(jTextField20)
-                    .addComponent(jTextField19)
-                    .addComponent(jTextField17)
-                    .addComponent(jTextField18))
+                    .addComponent(inglesRes10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(inglesRes9)
+                    .addComponent(inglesRes8)
+                    .addComponent(inglesRes7)
+                    .addComponent(inglesRes6)
+                    .addComponent(inglesRes5)
+                    .addComponent(inglesRes4)
+                    .addComponent(inglesRes3))
                 .addContainerGap())
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField16)
+                .addComponent(inglesRes2)
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox19)
-                    .addComponent(jCheckBox20)
-                    .addComponent(jCheckBox21))
+                    .addComponent(childs)
+                    .addComponent(children)
+                    .addComponent(child))
                 .addGap(18, 18, 18)
-                .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inglesRes10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
         );
 
@@ -1107,9 +1492,7 @@ public class Panel extends javax.swing.JFrame {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jTextField22)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTextField22)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1126,22 +1509,28 @@ public class Panel extends javax.swing.JFrame {
 
         jSplitPane3.setRightComponent(jPanel10);
 
-        jLabel31.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel31.setText("5: Which is the past tense of \"go\"? ");
+        inglesP5.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP5.setText("5: Which is the past tense of \"go\"? ");
 
-        jLabel29.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel29.setText("4: How do you say \"gato\" in English? ");
+        inglesP4.setForeground(new java.awt.Color(51, 51, 51));
+        inglesP4.setText("4: How do you say \"gato\" in English? ");
 
-        jLabel58.setText("Aca ira un cronometro");
+        cronometro3.setText("00:00:00");
 
-        jButton7.setBackground(new java.awt.Color(51, 51, 51));
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Enviar");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        inglesEnviarBtn.setBackground(new java.awt.Color(51, 51, 51));
+        inglesEnviarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        inglesEnviarBtn.setText("Enviar");
+        inglesEnviarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                inglesEnviarBtnActionPerformed(evt);
             }
         });
+
+        jLabel5.setText("Puntaje:");
+
+        PuntajeInglesLabel.setText("0");
+
+        LabelTiempo2.setText("---------------");
 
         javax.swing.GroupLayout InglesLayout = new javax.swing.GroupLayout(Ingles);
         Ingles.setLayout(InglesLayout);
@@ -1152,14 +1541,20 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(InglesLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(InglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(inglesP5, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inglesP4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 603, Short.MAX_VALUE))
                     .addGroup(InglesLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cronometro3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(101, 101, 101)
+                        .addComponent(LabelTiempo2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PuntajeInglesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(inglesEnviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(InglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(InglesLayout.createSequentialGroup()
@@ -1172,12 +1567,15 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(InglesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(InglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel58)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cronometro3)
+                    .addComponent(inglesEnviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(PuntajeInglesLabel)
+                    .addComponent(LabelTiempo2))
                 .addGap(135, 135, 135)
-                .addComponent(jLabel29)
+                .addComponent(inglesP4)
                 .addGap(26, 26, 26)
-                .addComponent(jLabel31)
+                .addComponent(inglesP5)
                 .addContainerGap(246, Short.MAX_VALUE))
             .addGroup(InglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(InglesLayout.createSequentialGroup()
@@ -1198,35 +1596,35 @@ public class Panel extends javax.swing.JFrame {
         jPanel12.setForeground(new java.awt.Color(51, 51, 51));
         jPanel12.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel37.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel37.setText("1: ¿Qué filósofo escribió La República? ");
+        humanidadesP1.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP1.setText("1: ¿Qué filósofo escribió La República? ");
 
-        jLabel38.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel38.setText("2: ¿Quién pintó la Mona Lisa? ");
+        humanidadesP2.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP2.setText("2: ¿Quién pintó la Mona Lisa? ");
 
-        jLabel39.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel39.setText("4: ¿Qué país es conocido como \"la cuna de la democracia\"? ");
+        humanidadesP4.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP4.setText("4: ¿Qué país es conocido como \"la cuna de la democracia\"? ");
 
-        jLabel40.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel40.setText("3: ¿En qué siglo cayó el Imperio Romano de Occidente? ");
+        humanidadesP3.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP3.setText("3: ¿En qué siglo cayó el Imperio Romano de Occidente? ");
 
-        jLabel41.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel41.setText("5: ¿Quién escribió El Quijote? ");
+        humanidadesP5.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP5.setText("5: ¿Quién escribió El Quijote? ");
 
-        jLabel42.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel42.setText("7: ¿Qué evento marcó el inicio de la Edad Media? ");
+        humanidadesP7.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP7.setText("7: ¿Qué evento marcó el inicio de la Edad Media? ");
 
-        jLabel43.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel43.setText("6: ¿Qué civilización construyó las pirámides de Giza? ");
+        humanidadesP6.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP6.setText("6: ¿Qué civilización construyó las pirámides de Giza? ");
 
-        jLabel44.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel44.setText("8: ¿Qué ciudad fue destruida por la erupción del Vesubio? ");
+        humanidadesP8.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP8.setText("8: ¿Qué ciudad fue destruida por la erupción del Vesubio? ");
 
-        jLabel45.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel45.setText("8: ¿Quién fue el primer emperador romano? ");
+        humanidadesP9.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP9.setText("8: ¿Quién fue el primer emperador romano? ");
 
-        jLabel46.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel46.setText("10: ¿instrumento de tortura de la Inquisición? ");
+        humanidadesP10.setForeground(new java.awt.Color(51, 51, 51));
+        humanidadesP10.setText("10: ¿instrumento de tortura de la Inquisición? ");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -1235,43 +1633,43 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(humanidadesP8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(humanidadesP10, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(humanidadesP9, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(humanidadesP1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel37)
+                .addComponent(humanidadesP1)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel38)
+                .addComponent(humanidadesP2)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel40)
+                .addComponent(humanidadesP3)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel39)
+                .addComponent(humanidadesP4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel41)
+                .addComponent(humanidadesP5)
                 .addGap(33, 33, 33)
-                .addComponent(jLabel43)
+                .addComponent(humanidadesP6)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel42)
+                .addComponent(humanidadesP7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addComponent(humanidadesP8, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel45)
+                .addComponent(humanidadesP9)
                 .addGap(26, 26, 26)
-                .addComponent(jLabel46)
+                .addComponent(humanidadesP10)
                 .addGap(22, 22, 22))
         );
 
@@ -1283,63 +1681,63 @@ public class Panel extends javax.swing.JFrame {
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTextField24.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField24ActionPerformed(evt);
+                humanidadesR2ActionPerformed(evt);
             }
         });
 
-        jTextField26.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField26ActionPerformed(evt);
+                humanidadesR3ActionPerformed(evt);
             }
         });
 
-        jTextField27.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField27ActionPerformed(evt);
+                humanidadesR7ActionPerformed(evt);
             }
         });
 
-        jTextField28.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField28ActionPerformed(evt);
+                humanidadesR9ActionPerformed(evt);
             }
         });
 
-        jTextField29.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField29ActionPerformed(evt);
+                humanidadesR8ActionPerformed(evt);
             }
         });
 
-        jTextField42.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField42ActionPerformed(evt);
+                humanidadesR10ActionPerformed(evt);
             }
         });
 
-        jTextField43.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField43ActionPerformed(evt);
+                humanidadesR5ActionPerformed(evt);
             }
         });
 
-        jTextField44.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField44ActionPerformed(evt);
+                humanidadesR1ActionPerformed(evt);
             }
         });
 
-        jTextField45.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField45ActionPerformed(evt);
+                humanidadesR4ActionPerformed(evt);
             }
         });
 
-        jTextField46.addActionListener(new java.awt.event.ActionListener() {
+        humanidadesR6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField46ActionPerformed(evt);
+                humanidadesR6ActionPerformed(evt);
             }
         });
 
@@ -1350,42 +1748,42 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField44, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
-                    .addComponent(jTextField24, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
-                    .addComponent(jTextField26)
-                    .addComponent(jTextField45, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField43)
-                    .addComponent(jTextField46)
-                    .addComponent(jTextField27)
-                    .addComponent(jTextField29)
-                    .addComponent(jTextField28)
-                    .addComponent(jTextField42))
+                    .addComponent(humanidadesR1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                    .addComponent(humanidadesR2)
+                    .addComponent(humanidadesR3)
+                    .addComponent(humanidadesR4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(humanidadesR5)
+                    .addComponent(humanidadesR6)
+                    .addComponent(humanidadesR7)
+                    .addComponent(humanidadesR8)
+                    .addComponent(humanidadesR9)
+                    .addComponent(humanidadesR10))
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField45, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField43, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField46, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(humanidadesR9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addComponent(humanidadesR10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -1393,7 +1791,6 @@ public class Panel extends javax.swing.JFrame {
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -1401,22 +1798,29 @@ public class Panel extends javax.swing.JFrame {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 7, Short.MAX_VALUE))
         );
 
         jSplitPane4.setRightComponent(jPanel13);
 
         jLabel59.setText("Aca ira un cronometro");
 
-        jLabel60.setText("Aca ira un cronometro");
+        cronometro4.setText("00:00:00");
 
-        jButton8.setBackground(new java.awt.Color(51, 51, 51));
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Enviar");
+        humanidadesEnviarBtn.setBackground(new java.awt.Color(51, 51, 51));
+        humanidadesEnviarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        humanidadesEnviarBtn.setText("Enviar");
+        humanidadesEnviarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                humanidadesEnviarBtnActionPerformed(evt);
+            }
+        });
 
-        jButton9.setBackground(new java.awt.Color(51, 51, 51));
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Enviar");
+        jLabel9.setText("Puntaje:");
+
+        humanidadesPuntajeLbl.setText("0");
+
+        LabelTiempo3.setText("------------------");
 
         javax.swing.GroupLayout HumanidadesLayout = new javax.swing.GroupLayout(Humanidades);
         Humanidades.setLayout(HumanidadesLayout);
@@ -1425,21 +1829,22 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(HumanidadesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSplitPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 868, Short.MAX_VALUE)
+                    .addComponent(jSplitPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
                     .addGroup(HumanidadesLayout.createSequentialGroup()
-                        .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cronometro4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(96, 96, 96)
+                        .addComponent(LabelTiempo3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(humanidadesPuntajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addComponent(humanidadesEnviarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(HumanidadesLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jLabel59)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(HumanidadesLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton8)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         HumanidadesLayout.setVerticalGroup(
@@ -1447,8 +1852,12 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(HumanidadesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel60, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                    .addComponent(cronometro4)
+                    .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(humanidadesEnviarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addComponent(humanidadesPuntajeLbl)
+                        .addComponent(LabelTiempo3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1456,11 +1865,6 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(HumanidadesLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jLabel59)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(HumanidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(HumanidadesLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton8)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -1475,35 +1879,35 @@ public class Panel extends javax.swing.JFrame {
         jPanel15.setForeground(new java.awt.Color(51, 51, 51));
         jPanel15.setPreferredSize(new java.awt.Dimension(353, 456));
 
-        jLabel47.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel47.setText("1: ¿Permite a las plantas producir su alimento? ");
+        EcoP1.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP1.setText("1: ¿Permite a las plantas producir su alimento? ");
 
-        jLabel48.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel48.setText("2: Ecosistema caracterizado por lluvias y gran biodiversidad");
+        EcoP2.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP2.setText("2: Ecosistema caracterizado por lluvias y gran biodiversidad");
 
-        jLabel49.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel49.setText("4: ¿Cómo se llama el lugar donde vive un organismo? ");
+        EcoP4.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP4.setText("4: ¿Cómo se llama el lugar donde vive un organismo? ");
 
-        jLabel50.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel50.setText("3: ¿Qué gas producen las plantas durante la fotosíntesis? ");
+        EcoP3.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP3.setText("3: ¿Qué gas producen las plantas durante la fotosíntesis? ");
 
-        jLabel51.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel51.setText("5: ¿Qué animal es un depredador? ");
+        EcoP5.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP5.setText("5: ¿Qué animal es un depredador? ");
 
-        jLabel52.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel52.setText("7: ¿Qué ecosistema tiene inviernos largos y veranos cortos? ");
+        EcoP7.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP7.setText("7: ¿Qué ecosistema tiene inviernos largos y veranos cortos? ");
 
-        jLabel53.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel53.setText("6: ¿Qué tipo de agua hay en los ríos? ");
+        EcoP6.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP6.setText("6: ¿Qué tipo de agua hay en los ríos? ");
 
-        jLabel54.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel54.setText("8: ¿Qué relación existe entre un pez y un tiburón? ");
+        EcoP8.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP8.setText("8: ¿Qué relación existe entre un pez y un tiburón? ");
 
-        jLabel55.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel55.setText("9: ¿Qué factor es abiótico? ");
+        EcoP9.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP9.setText("9: ¿Qué factor es abiótico? ");
 
-        jLabel56.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel56.setText("10: Ecosistema  quetiene suelo arenosos y escasez de agua ");
+        EcoP10.setForeground(new java.awt.Color(51, 51, 51));
+        EcoP10.setText("10: Ecosistema  quetiene suelo arenosos y escasez de agua ");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -1513,47 +1917,47 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(EcoP7, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel15Layout.createSequentialGroup()
                                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel50)
-                                    .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(EcoP5, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EcoP6, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EcoP8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(EcoP1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(EcoP3)
+                                    .addComponent(EcoP9, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EcoP2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(EcoP4))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel56, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(EcoP10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel47)
+                .addComponent(EcoP1)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel48)
+                .addComponent(EcoP2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jLabel50)
+                .addComponent(EcoP3)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel49)
+                .addComponent(EcoP4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel51)
+                .addComponent(EcoP5)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel53)
+                .addComponent(EcoP6)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel52)
+                .addComponent(EcoP7)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel54)
+                .addComponent(EcoP8)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel55)
+                .addComponent(EcoP9)
                 .addGap(26, 26, 26)
-                .addComponent(jLabel56)
+                .addComponent(EcoP10)
                 .addGap(35, 35, 35))
         );
 
@@ -1565,84 +1969,84 @@ public class Panel extends javax.swing.JFrame {
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
         jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTextField30.addActionListener(new java.awt.event.ActionListener() {
+        EcoR2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField30ActionPerformed(evt);
+                EcoR2ActionPerformed(evt);
             }
         });
 
-        jTextField31.addActionListener(new java.awt.event.ActionListener() {
+        EcoR4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField31ActionPerformed(evt);
+                EcoR4ActionPerformed(evt);
             }
         });
 
-        jTextField32.addActionListener(new java.awt.event.ActionListener() {
+        EcoR3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField32ActionPerformed(evt);
+                EcoR3ActionPerformed(evt);
             }
         });
 
-        jTextField34.addActionListener(new java.awt.event.ActionListener() {
+        EcoR6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField34ActionPerformed(evt);
+                EcoR6ActionPerformed(evt);
             }
         });
 
-        jTextField35.addActionListener(new java.awt.event.ActionListener() {
+        EcoR9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField35ActionPerformed(evt);
+                EcoR9ActionPerformed(evt);
             }
         });
 
-        jTextField36.addActionListener(new java.awt.event.ActionListener() {
+        EcoR10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField36ActionPerformed(evt);
+                EcoR10ActionPerformed(evt);
             }
         });
 
-        jCheckBox10.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox10.setText("Conejo");
+        EcoR5.add(conejo);
+        conejo.setText("Conejo");
 
-        jCheckBox11.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox11.setText("Leon");
+        EcoR5.add(leon);
+        leon.setText("Leon");
 
-        jCheckBox12.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox12.setText("hormiga");
+        EcoR5.add(hormiga);
+        hormiga.setText("hormiga");
 
-        jCheckBox13.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox13.setText("Desierto");
-        jCheckBox13.addActionListener(new java.awt.event.ActionListener() {
+        EcoR7.add(desierto);
+        desierto.setText("Desierto");
+        desierto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox13ActionPerformed(evt);
+                desiertoActionPerformed(evt);
             }
         });
 
-        jCheckBox14.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox14.setText("Bosque tropical");
+        EcoR7.add(bosqueTropical);
+        bosqueTropical.setText("Bosque tropical");
 
-        jCheckBox15.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox15.setText("Tundra ");
+        EcoR7.add(tundra);
+        tundra.setText("Tundra ");
 
-        jTextField33.addActionListener(new java.awt.event.ActionListener() {
+        EcoR1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField33ActionPerformed(evt);
+                EcoR1ActionPerformed(evt);
             }
         });
 
-        jCheckBox16.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox16.setText("Competencia");
-        jCheckBox16.addActionListener(new java.awt.event.ActionListener() {
+        EcoR8.add(competencia);
+        competencia.setText("Competencia");
+        competencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox16ActionPerformed(evt);
+                competenciaActionPerformed(evt);
             }
         });
 
-        jCheckBox17.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox17.setText("Simbiosis");
+        EcoR8.add(simbiosis);
+        simbiosis.setText("Simbiosis");
 
-        jCheckBox18.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox18.setText("Depredador-presa");
+        EcoR8.add(depredadorPresa);
+        depredadorPresa.setText("Depredador-presa");
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -1651,63 +2055,64 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField30, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-                    .addComponent(jTextField32)
-                    .addComponent(jTextField31)
-                    .addComponent(jTextField34)
-                    .addComponent(jTextField35)
-                    .addComponent(jTextField36)
-                    .addComponent(jTextField33, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                    .addComponent(EcoR2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                    .addComponent(EcoR3)
+                    .addComponent(EcoR4)
+                    .addComponent(EcoR6)
+                    .addComponent(EcoR9)
+                    .addComponent(EcoR10)
+                    .addComponent(EcoR1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(conejo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(102, 102, 102)
-                        .addComponent(jCheckBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(leon, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(64, 64, 64)
-                        .addComponent(jCheckBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(hormiga, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox16, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(competencia, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(desierto, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(56, 56, 56)
-                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jCheckBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox18)))))
+                            .addComponent(bosqueTropical, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(simbiosis, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(tundra, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(depredadorPresa))
+                        .addGap(27, 27, 27))))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
-                .addComponent(jTextField33, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox10)
-                    .addComponent(jCheckBox11)
-                    .addComponent(jCheckBox12))
+                    .addComponent(conejo)
+                    .addComponent(leon)
+                    .addComponent(hormiga))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox13)
-                    .addComponent(jCheckBox14)
-                    .addComponent(jCheckBox15))
+                    .addComponent(desierto)
+                    .addComponent(bosqueTropical)
+                    .addComponent(tundra))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox16)
-                    .addComponent(jCheckBox17)
-                    .addComponent(jCheckBox18))
+                    .addComponent(competencia)
+                    .addComponent(simbiosis)
+                    .addComponent(depredadorPresa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EcoR10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -1730,11 +2135,22 @@ public class Panel extends javax.swing.JFrame {
 
         jSplitPane5.setRightComponent(jPanel16);
 
-        jLabel61.setText("Aca ira un cronometro");
+        cronometro5.setText("00:00:00");
 
         jButton10.setBackground(new java.awt.Color(51, 51, 51));
         jButton10.setForeground(new java.awt.Color(255, 255, 255));
         jButton10.setText("Enviar");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Puntaje");
+
+        LabelTiempo4.setText("---------------");
+
+        ecosistemasPuntajeLbl.setText("0");
 
         javax.swing.GroupLayout EcosistemasLayout = new javax.swing.GroupLayout(Ecosistemas);
         Ecosistemas.setLayout(EcosistemasLayout);
@@ -1742,10 +2158,16 @@ public class Panel extends javax.swing.JFrame {
             EcosistemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EcosistemasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(cronometro5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(128, 128, 128)
+                .addComponent(LabelTiempo4)
+                .addGap(168, 168, 168)
+                .addComponent(jLabel10)
+                .addGap(42, 42, 42)
+                .addComponent(ecosistemasPuntajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18))
             .addGroup(EcosistemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(EcosistemasLayout.createSequentialGroup()
                     .addContainerGap()
@@ -1757,8 +2179,11 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(EcosistemasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(EcosistemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cronometro5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(LabelTiempo4)
+                    .addComponent(ecosistemasPuntajeLbl))
                 .addContainerGap(438, Short.MAX_VALUE))
             .addGroup(EcosistemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(EcosistemasLayout.createSequentialGroup()
@@ -1789,368 +2214,665 @@ public class Panel extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        new Creadores().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
+        
+        manejarMateriaSeleccionada(jComboBox1);
+        
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void CalcularPromBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularPromBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        mostrarPromedio();
+    }//GEN-LAST:event_CalcularPromBtnActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void EnviarButtonEspanolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarButtonEspanolActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        
+                // pregunta 1
+          verificarRespuesta(mesa, espanolP1, true); // true si es la correcta
+          verificarRespuesta(azul, espanolP1, false); // true si es la correcta
+          verificarRespuesta(hermoso, espanolP1, false);
+          
+          verificarRespuestaAbierta(resEspanolp2,espanolP2,"ADVERBIO");
+          verificarRespuestaAbierta(resEspanolp3,espanolP3,"ARBOL");
+          verificarRespuestaAbierta(resEspanolp4,espanolP4,"CONTENTO");
+          verificarRespuestaAbierta(resEspanolp5,espanolP5,"EXCLAMATIVA");
+          verificarRespuestaAbierta(resEspanolp6,espanolP6,"PALABRAS QUE SUENAN IGUAL PERO TIENEN DIFERENTE SIGNIFICADO");
+          
+          // pregunta 7
+          verificarRespuesta(transitivo, espanolP7, false);
+          verificarRespuesta(intransitivo, espanolP7, true);
+          verificarRespuesta(reflexivo, espanolP7, false);
+          
+          // pregunta 8
+          
+          verificarRespuesta(metafora, espanolP8, false);
+          verificarRespuesta(simil, espanolP8, true);
+          verificarRespuesta(personificacion, espanolP8, false);
+          
+          
+          verificarRespuestaAbierta(resEspanolp9,espanolP9,"ACENTO ORTOGRAFICO");
+          verificarRespuestaAbierta(resEspanolp10,espanolP10,"RELATO BREVE CON MORALEJA");
+          
+          LabelPuntaje.setText(String.valueOf(puntajeEspanol)); 
+          
+          actualizarPuntajeEnTabla("Español", puntajeEspanol);
+          
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
+          
+          detenerTimers();
+          manejarEnviar(LabelTiempo);
+          
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        
+    }//GEN-LAST:event_EnviarButtonEspanolActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void resEspanolp2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resEspanolp2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_resEspanolp2ActionPerformed
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+    private void azulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_azulActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
+    }//GEN-LAST:event_azulActionPerformed
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+    private void mesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mesaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
+    }//GEN-LAST:event_mesaActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void resEspanolp4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resEspanolp4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_resEspanolp4ActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void resEspanolp10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resEspanolp10ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_resEspanolp10ActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void resEspanolp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resEspanolp3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_resEspanolp3ActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void resEspanolp5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resEspanolp5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_resEspanolp5ActionPerformed
 
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+    private void intransitivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intransitivoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
+    }//GEN-LAST:event_intransitivoActionPerformed
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void resEspanolp6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resEspanolp6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    }//GEN-LAST:event_resEspanolp6ActionPerformed
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void resEspanolp9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resEspanolp9ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_resEspanolp9ActionPerformed
 
-    private void jTextField24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField24ActionPerformed
+    private void EcoR2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField24ActionPerformed
+    }//GEN-LAST:event_EcoR2ActionPerformed
 
-    private void jTextField26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField26ActionPerformed
+    private void EcoR4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField26ActionPerformed
+    }//GEN-LAST:event_EcoR4ActionPerformed
 
-    private void jTextField27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField27ActionPerformed
+    private void EcoR3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField27ActionPerformed
+    }//GEN-LAST:event_EcoR3ActionPerformed
 
-    private void jTextField28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField28ActionPerformed
+    private void EcoR6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField28ActionPerformed
+    }//GEN-LAST:event_EcoR6ActionPerformed
 
-    private void jTextField29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField29ActionPerformed
+    private void EcoR9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR9ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField29ActionPerformed
+    }//GEN-LAST:event_EcoR9ActionPerformed
 
-    private void jTextField30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField30ActionPerformed
+    private void EcoR10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR10ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField30ActionPerformed
+    }//GEN-LAST:event_EcoR10ActionPerformed
 
-    private void jTextField31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField31ActionPerformed
+    private void matRes7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField31ActionPerformed
+    }//GEN-LAST:event_matRes7ActionPerformed
 
-    private void jTextField32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField32ActionPerformed
+    private void matRes8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField32ActionPerformed
+    }//GEN-LAST:event_matRes8ActionPerformed
 
-    private void jTextField34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField34ActionPerformed
+    private void matRes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField34ActionPerformed
+    }//GEN-LAST:event_matRes1ActionPerformed
 
-    private void jTextField35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField35ActionPerformed
+    private void matRes10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes10ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField35ActionPerformed
+    }//GEN-LAST:event_matRes10ActionPerformed
 
-    private void jTextField36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField36ActionPerformed
+    private void matRes9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes9ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField36ActionPerformed
+    }//GEN-LAST:event_matRes9ActionPerformed
 
-    private void jTextField39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField39ActionPerformed
+    private void matRes6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField39ActionPerformed
+    }//GEN-LAST:event_matRes6ActionPerformed
 
-    private void jTextField38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField38ActionPerformed
+    private void matRes5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField38ActionPerformed
+    }//GEN-LAST:event_matRes5ActionPerformed
 
-    private void jTextField37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField37ActionPerformed
+    private void matRes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField37ActionPerformed
+    }//GEN-LAST:event_matRes3ActionPerformed
 
-    private void jTextField15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField15ActionPerformed
+    private void matRes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField15ActionPerformed
+    }//GEN-LAST:event_matRes4ActionPerformed
 
-    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
+    private void matRes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matRes2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField14ActionPerformed
+    }//GEN-LAST:event_matRes2ActionPerformed
 
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
+    private void desiertoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desiertoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
+    }//GEN-LAST:event_desiertoActionPerformed
 
-    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+    private void EcoR1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcoR1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField12ActionPerformed
+    }//GEN-LAST:event_EcoR1ActionPerformed
 
-    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+    private void competenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_competenciaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField11ActionPerformed
+    }//GEN-LAST:event_competenciaActionPerformed
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
+    private void MatenviarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MatenviarBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
-
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
-
-    private void jTextField42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField42ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField42ActionPerformed
-
-    private void jTextField43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField43ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField43ActionPerformed
-
-    private void jTextField44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField44ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField44ActionPerformed
-
-    private void jTextField45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField45ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField45ActionPerformed
-
-    private void jTextField46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField46ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField46ActionPerformed
-
-    private void jCheckBox13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox13ActionPerformed
-
-    private void jTextField33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField33ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField33ActionPerformed
-
-    private void jCheckBox16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox16ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox16ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+        
+        verificarRespuestaAbierta(matRes1,matP1,"16");
+        verificarRespuestaAbierta(matRes2,matP2,"54");
+        verificarRespuestaAbierta(matRes3,matP3,"7");
+        verificarRespuestaAbierta(matRes4,matP4,"6");
+        verificarRespuestaAbierta(matRes5,matP5,"9");
+        verificarRespuestaAbierta(matRes6,matP6,"4");
+        verificarRespuestaAbierta(matRes7,matP7,"ISOCELES");
+        verificarRespuestaAbierta(matRes8,matP8,"25");
+        verificarRespuestaAbierta(matRes9,matP9,"4");
+        verificarRespuestaAbierta(matRes10,matP10,"1");
+        
+        PuntajeMatLbl.setText(String.valueOf(puntajeMatematicas));  
+        actualizarPuntajeEnTabla("Matematicas", puntajeMatematicas);
+        
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
+        
+          detenerTimers();
+          manejarEnviar(LabelTiempo1);
+        
+        
+        
+    }//GEN-LAST:event_MatenviarBtnActionPerformed
 
     private void jTextField22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField22ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField22ActionPerformed
 
-    private void jTextField41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField41ActionPerformed
+    private void inglesRes8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField41ActionPerformed
+    }//GEN-LAST:event_inglesRes8ActionPerformed
 
-    private void jTextField40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField40ActionPerformed
+    private void inglesRes7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField40ActionPerformed
+    }//GEN-LAST:event_inglesRes7ActionPerformed
 
-    private void jTextField21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField21ActionPerformed
+    private void inglesRes10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes10ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField21ActionPerformed
+    }//GEN-LAST:event_inglesRes10ActionPerformed
 
-    private void jTextField20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField20ActionPerformed
+    private void inglesRes6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField20ActionPerformed
+    }//GEN-LAST:event_inglesRes6ActionPerformed
 
-    private void jTextField19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField19ActionPerformed
+    private void inglesRes5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField19ActionPerformed
+    }//GEN-LAST:event_inglesRes5ActionPerformed
 
-    private void jTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
+    private void inglesRes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField18ActionPerformed
+    }//GEN-LAST:event_inglesRes3ActionPerformed
 
-    private void jTextField17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField17ActionPerformed
+    private void inglesRes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField17ActionPerformed
+    }//GEN-LAST:event_inglesRes4ActionPerformed
 
-    private void jTextField16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField16ActionPerformed
+    private void inglesRes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField16ActionPerformed
+    }//GEN-LAST:event_inglesRes2ActionPerformed
 
-    private void jCheckBox20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox20ActionPerformed
+    private void childrenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_childrenActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox20ActionPerformed
+    }//GEN-LAST:event_childrenActionPerformed
 
-    private void jCheckBox19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox19ActionPerformed
+    private void childsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_childsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox19ActionPerformed
+    }//GEN-LAST:event_childsActionPerformed
 
-    private void jTextField23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField23ActionPerformed
+    private void inglesRes9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesRes9ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField23ActionPerformed
+    }//GEN-LAST:event_inglesRes9ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void inglesEnviarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesEnviarBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+          verificarRespuesta(childs, inglesP1, false); // true si es la correcta
+          verificarRespuesta(children, inglesP1, true); // true si es la correcta
+          verificarRespuesta(child, inglesP1, false);
+          
+          verificarRespuestaAbierta(inglesRes2,inglesP2,"HOLA");
+          verificarRespuestaAbierta(inglesRes3,inglesP3,"ESTOY FELIZ");
+          // Pregunta 1
+          verificarRespuestaAbierta(inglesRes4, inglesP4, "CAT"); // Respuesta correcta: "Cat"
 
+// Pregunta 2
+          verificarRespuestaAbierta(inglesRes5, inglesP5, "WENT"); // Respuesta correcta: "Went"
+
+// Pregunta 3
+verificarRespuestaAbierta(inglesRes6, inglesP6, "GRANDE"); // Respuesta correcta: "Grande"
+
+// Pregunta 4
+verificarRespuestaAbierta(inglesRes7, inglesP7, "RED"); // Respuesta correcta: "Red"
+
+// Pregunta 5
+verificarRespuestaAbierta(inglesRes8, inglesP8, "SAD"); // Respuesta correcta: "Sad"
+
+// Pregunta 6
+verificarRespuestaAbierta(inglesRes9, inglesP9, "WINDOW"); // Respuesta correcta: "Window"
+
+// Pregunta 7
+verificarRespuestaAbierta(inglesRes10, inglesP10, "PRETTY"); // Respuesta correcta: "Pretty"
+
+
+
+          PuntajeInglesLabel.setText(String.valueOf(puntajeIngles)); 
+          
+          actualizarPuntajeEnTabla("Ingles", puntajeIngles);
+
+
+
+
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
+
+          detenerTimers();
+          manejarEnviar(LabelTiempo2);
+
+          
+
+        
+    }//GEN-LAST:event_inglesEnviarBtnActionPerformed
+
+    private void tabla_panelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabla_panelStateChanged
+        // TODO add your handling code here:
+        
+    int indiceSeleccionado = tabla_panel.getSelectedIndex();
+    String tituloSeleccionado = tabla_panel.getTitleAt(indiceSeleccionado);
+
+    // Resetear cronómetros y timers al cambiar de pestaña
+    if ("Español".equals(tituloSeleccionado)) {
+        resetCronometro("Español");
+        timerEspanol.start();
+    } else {
+        timerEspanol.stop();
+    }
+
+    if ("Matemáticas".equals(tituloSeleccionado)) {
+        resetCronometro("Matemáticas");
+        timerMatematicas.start();
+    } else {
+        timerMatematicas.stop();
+    }
+
+    if ("Inglés".equals(tituloSeleccionado)) {
+        resetCronometro("Inglés");
+        timerIngles.start();
+    } else {
+        timerIngles.stop();
+    }
+
+    if ("Humanidades".equals(tituloSeleccionado)) {
+        resetCronometro("Humanidades");
+        timerHumanidades.start();
+    } else {
+        timerHumanidades.stop();
+    }
+
+    if ("Ecosistemas".equals(tituloSeleccionado)) {
+        resetCronometro("Ecosistemas");
+        timerEcosistemas.start();
+    } else {
+        timerEcosistemas.stop();
+    }
+}
+
+private void resetCronometro(String materia) {
+    switch (materia) {
+        case "Español":
+            horasEspanol = 0;
+            minutosEspanol = 0;
+            segundosEspanol = 0;
+            cronometro.setText("00:00:00");
+            break;
+        case "Matemáticas":
+            horasMatematicas = 0;
+            minutosMatematicas = 0;
+            segundosMatematicas = 0;
+            cronometro2.setText("00:00:00");
+            break;
+        case "Inglés":
+            horasIngles = 0;
+            minutosIngles = 0;
+            segundosIngles = 0;
+            cronometro3.setText("00:00:00");
+            break;
+        case "Humanidades":
+            horasHumanidades = 0;
+            minutosHumanidades = 0;
+            segundosHumanidades = 0;
+            cronometro4.setText("00:00:00");
+            break;
+        case "Ecosistemas":
+            horasEcosistemas = 0;
+            minutosEcosistemas = 0;
+            segundosEcosistemas = 0;
+            cronometro5.setText("00:00:00");
+            break;
+    }
+
+        
+    }//GEN-LAST:event_tabla_panelStateChanged
+
+    private void humanidadesEnviarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesEnviarBtnActionPerformed
+        // TODO add your handling code here:
+        
+        // Pregunta 1
+verificarRespuestaAbierta(humanidadesR1, humanidadesP1, "PLATÓN"); // Respuesta correcta: "Platón"
+
+// Pregunta 2
+verificarRespuestaAbierta(humanidadesR2, humanidadesP2, "LEONARDO DA VINCI"); // Respuesta correcta: "Leonardo da Vinci"
+
+// Pregunta 3
+verificarRespuestaAbierta(humanidadesR3, humanidadesP3, "SIGLO V"); // Respuesta correcta: "Siglo V"
+
+// Pregunta 4
+verificarRespuestaAbierta(humanidadesR4, humanidadesP4, "GRECIA"); // Respuesta correcta: "Grecia"
+
+// Pregunta 5
+verificarRespuestaAbierta(humanidadesR5, humanidadesP5, "MIGUEL DE CERVANTES"); // Respuesta correcta: "Miguel de Cervantes"
+
+// Pregunta 6
+verificarRespuestaAbierta(humanidadesR6, humanidadesP6, "EGIPCIA"); // Respuesta correcta: "Egipcia"
+
+// Pregunta 7
+verificarRespuestaAbierta(humanidadesR7, humanidadesP7, "LA CAÍDA DEL IMPERIO ROMANO DE OCCIDENTE"); // Respuesta correcta: "La caída del Imperio Romano de Occidente"
+
+// Pregunta 8
+verificarRespuestaAbierta(humanidadesR8, humanidadesP8, "POMPEYA"); // Respuesta correcta: "Pompeya"
+
+// Pregunta 9
+verificarRespuestaAbierta(humanidadesR9, humanidadesP9, "AUGUSTO"); // Respuesta correcta: "Augusto"
+
+// Pregunta 10
+verificarRespuestaAbierta(humanidadesR10, humanidadesP10, "LA RUEDA"); // Respuesta correcta: "La rueda"
+
+
+
+        humanidadesPuntajeLbl.setText(String.valueOf(puntajeHumanidades));  
+        actualizarPuntajeEnTabla("Humanidades", puntajeHumanidades);
+
+
+
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
+          
+          
+          detenerTimers();
+          manejarEnviar(LabelTiempo3);
+        
+    }//GEN-LAST:event_humanidadesEnviarBtnActionPerformed
+
+    private void humanidadesR6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR6ActionPerformed
+
+    private void humanidadesR4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR4ActionPerformed
+
+    private void humanidadesR1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR1ActionPerformed
+
+    private void humanidadesR5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR5ActionPerformed
+
+    private void humanidadesR10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR10ActionPerformed
+
+    private void humanidadesR8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR8ActionPerformed
+
+    private void humanidadesR9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR9ActionPerformed
+
+    private void humanidadesR7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR7ActionPerformed
+
+    private void humanidadesR3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR3ActionPerformed
+
+    private void humanidadesR2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_humanidadesR2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_humanidadesR2ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        verificarRespuestaAbierta(EcoR1, EcoP1, "FOTOSINTESIS");
+        verificarRespuestaAbierta(EcoR2, EcoP2, "SELVA TROPICAL");
+        verificarRespuestaAbierta(EcoR3, EcoP3, "OXIGENO");
+        verificarRespuestaAbierta(EcoR4, EcoP4, "HABITAT");
+        
+        verificarRespuesta(leon, EcoP5, true);
+        verificarRespuesta(conejo, EcoP5, false);
+        verificarRespuesta(hormiga, EcoP5, false);
+        
+        
+        verificarRespuesta(tundra, EcoP7, true);
+        verificarRespuesta(bosqueTropical, EcoP7, false);
+        verificarRespuesta(desierto, EcoP7, false);
+        
+        
+        verificarRespuesta(depredadorPresa, EcoP8, true);
+        verificarRespuesta(simbiosis, EcoP8, false);
+        verificarRespuesta(competencia, EcoP8, false);
+        
+        verificarRespuestaAbierta(EcoR6, EcoP6, "DULCE");
+        verificarRespuestaAbierta(EcoR9, EcoP9, "AGUA");
+        verificarRespuestaAbierta(EcoR10, EcoP10, "DESIERTO");
+       
+        
+        
+        ecosistemasPuntajeLbl.setText(String.valueOf(puntajeEcosistemas));  
+        actualizarPuntajeEnTabla("Ecosistemas", puntajeEcosistemas);
+
+
+
+          puntajeEspanol = 0;
+          puntajeMatematicas = 0;
+          puntajeIngles = 0;
+          puntajeHumanidades = 0;
+          puntajeEcosistemas = 0;
+          
+          
+          detenerTimers();
+          manejarEnviar(LabelTiempo4);
+        
+        
+        
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Panel().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CalcularPromBtn;
+    private javax.swing.JLabel EcoP1;
+    private javax.swing.JLabel EcoP10;
+    private javax.swing.JLabel EcoP2;
+    private javax.swing.JLabel EcoP3;
+    private javax.swing.JLabel EcoP4;
+    private javax.swing.JLabel EcoP5;
+    private javax.swing.JLabel EcoP6;
+    private javax.swing.JLabel EcoP7;
+    private javax.swing.JLabel EcoP8;
+    private javax.swing.JLabel EcoP9;
+    private javax.swing.JTextField EcoR1;
+    private javax.swing.JTextField EcoR10;
+    private javax.swing.JTextField EcoR2;
+    private javax.swing.JTextField EcoR3;
+    private javax.swing.JTextField EcoR4;
+    private javax.swing.ButtonGroup EcoR5;
+    private javax.swing.JTextField EcoR6;
+    private javax.swing.ButtonGroup EcoR7;
+    private javax.swing.ButtonGroup EcoR8;
+    private javax.swing.JTextField EcoR9;
     private javax.swing.JPanel Ecosistemas;
+    private javax.swing.JButton EnviarButtonEspanol;
     private javax.swing.JPanel Español;
     private javax.swing.JPanel Humanidades;
     private javax.swing.JPanel Ingles;
+    private javax.swing.JLabel LabelPromedio;
+    private javax.swing.JLabel LabelPuntaje;
+    private javax.swing.JLabel LabelTiempo;
+    private javax.swing.JLabel LabelTiempo1;
+    private javax.swing.JLabel LabelTiempo2;
+    private javax.swing.JLabel LabelTiempo3;
+    private javax.swing.JLabel LabelTiempo4;
     private javax.swing.JPanel Matematicas;
+    private javax.swing.JButton MatenviarBtn;
     private javax.swing.JPanel Panel_examen;
+    private javax.swing.JLabel PuntajeInglesLabel;
+    private javax.swing.JLabel PuntajeMatLbl;
+    private javax.swing.JTable TablaCalif;
+    private javax.swing.JCheckBox azul;
+    private javax.swing.JCheckBox bosqueTropical;
+    private javax.swing.JCheckBox child;
+    private javax.swing.JCheckBox children;
+    private javax.swing.JCheckBox childs;
+    private javax.swing.JCheckBox competencia;
+    private javax.swing.JCheckBox conejo;
+    private javax.swing.JLabel cronometro;
+    private javax.swing.JLabel cronometro2;
+    private javax.swing.JLabel cronometro3;
+    private javax.swing.JLabel cronometro4;
+    private javax.swing.JLabel cronometro5;
+    private javax.swing.JCheckBox depredadorPresa;
+    private javax.swing.JCheckBox desierto;
+    private javax.swing.JLabel ecosistemasPuntajeLbl;
+    private javax.swing.ButtonGroup espanol1;
+    private javax.swing.ButtonGroup espanol7;
+    private javax.swing.ButtonGroup espanol8;
+    private javax.swing.JLabel espanolP1;
+    private javax.swing.JLabel espanolP10;
+    private javax.swing.JLabel espanolP2;
+    private javax.swing.JLabel espanolP3;
+    private javax.swing.JLabel espanolP4;
+    private javax.swing.JLabel espanolP5;
+    private javax.swing.JLabel espanolP6;
+    private javax.swing.JLabel espanolP7;
+    private javax.swing.JLabel espanolP8;
+    private javax.swing.JLabel espanolP9;
+    private javax.swing.JCheckBox hermoso;
+    private javax.swing.JCheckBox hormiga;
+    private javax.swing.JButton humanidadesEnviarBtn;
+    private javax.swing.JLabel humanidadesP1;
+    private javax.swing.JLabel humanidadesP10;
+    private javax.swing.JLabel humanidadesP2;
+    private javax.swing.JLabel humanidadesP3;
+    private javax.swing.JLabel humanidadesP4;
+    private javax.swing.JLabel humanidadesP5;
+    private javax.swing.JLabel humanidadesP6;
+    private javax.swing.JLabel humanidadesP7;
+    private javax.swing.JLabel humanidadesP8;
+    private javax.swing.JLabel humanidadesP9;
+    private javax.swing.JLabel humanidadesPuntajeLbl;
+    private javax.swing.JTextField humanidadesR1;
+    private javax.swing.JTextField humanidadesR10;
+    private javax.swing.JTextField humanidadesR2;
+    private javax.swing.JTextField humanidadesR3;
+    private javax.swing.JTextField humanidadesR4;
+    private javax.swing.JTextField humanidadesR5;
+    private javax.swing.JTextField humanidadesR6;
+    private javax.swing.JTextField humanidadesR7;
+    private javax.swing.JTextField humanidadesR8;
+    private javax.swing.JTextField humanidadesR9;
+    private javax.swing.ButtonGroup ingles1;
+    private javax.swing.JButton inglesEnviarBtn;
+    private javax.swing.JLabel inglesP1;
+    private javax.swing.JLabel inglesP10;
+    private javax.swing.JLabel inglesP2;
+    private javax.swing.JLabel inglesP3;
+    private javax.swing.JLabel inglesP4;
+    private javax.swing.JLabel inglesP5;
+    private javax.swing.JLabel inglesP6;
+    private javax.swing.JLabel inglesP7;
+    private javax.swing.JLabel inglesP8;
+    private javax.swing.JLabel inglesP9;
+    private javax.swing.JTextField inglesRes10;
+    private javax.swing.JTextField inglesRes2;
+    private javax.swing.JTextField inglesRes3;
+    private javax.swing.JTextField inglesRes4;
+    private javax.swing.JTextField inglesRes5;
+    private javax.swing.JTextField inglesRes6;
+    private javax.swing.JTextField inglesRes7;
+    private javax.swing.JTextField inglesRes8;
+    private javax.swing.JTextField inglesRes9;
+    private javax.swing.JCheckBox intransitivo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox12;
-    private javax.swing.JCheckBox jCheckBox13;
-    private javax.swing.JCheckBox jCheckBox14;
-    private javax.swing.JCheckBox jCheckBox15;
-    private javax.swing.JCheckBox jCheckBox16;
-    private javax.swing.JCheckBox jCheckBox17;
-    private javax.swing.JCheckBox jCheckBox18;
-    private javax.swing.JCheckBox jCheckBox19;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox20;
-    private javax.swing.JCheckBox jCheckBox21;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
-    private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
-    private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
-    private javax.swing.JLabel jLabel56;
-    private javax.swing.JLabel jLabel57;
-    private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -2175,52 +2897,45 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JSplitPane jSplitPane5;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField26;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
-    private javax.swing.JTextField jTextField29;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField30;
-    private javax.swing.JTextField jTextField31;
-    private javax.swing.JTextField jTextField32;
-    private javax.swing.JTextField jTextField33;
-    private javax.swing.JTextField jTextField34;
-    private javax.swing.JTextField jTextField35;
-    private javax.swing.JTextField jTextField36;
-    private javax.swing.JTextField jTextField37;
-    private javax.swing.JTextField jTextField38;
-    private javax.swing.JTextField jTextField39;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField40;
-    private javax.swing.JTextField jTextField41;
-    private javax.swing.JTextField jTextField42;
-    private javax.swing.JTextField jTextField43;
-    private javax.swing.JTextField jTextField44;
-    private javax.swing.JTextField jTextField45;
-    private javax.swing.JTextField jTextField46;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JCheckBox leon;
+    private javax.swing.JLabel matP1;
+    private javax.swing.JLabel matP10;
+    private javax.swing.JLabel matP2;
+    private javax.swing.JLabel matP3;
+    private javax.swing.JLabel matP4;
+    private javax.swing.JLabel matP5;
+    private javax.swing.JLabel matP6;
+    private javax.swing.JLabel matP7;
+    private javax.swing.JLabel matP8;
+    private javax.swing.JLabel matP9;
+    private javax.swing.JTextField matRes1;
+    private javax.swing.JTextField matRes10;
+    private javax.swing.JTextField matRes2;
+    private javax.swing.JTextField matRes3;
+    private javax.swing.JTextField matRes4;
+    private javax.swing.JTextField matRes5;
+    private javax.swing.JTextField matRes6;
+    private javax.swing.JTextField matRes7;
+    private javax.swing.JTextField matRes8;
+    private javax.swing.JTextField matRes9;
+    private javax.swing.JCheckBox mesa;
+    private javax.swing.JCheckBox metafora;
+    private javax.swing.JCheckBox personificacion;
+    private javax.swing.JCheckBox reflexivo;
+    private javax.swing.JTextField resEspanolp10;
+    private javax.swing.JTextField resEspanolp2;
+    private javax.swing.JTextField resEspanolp3;
+    private javax.swing.JTextField resEspanolp4;
+    private javax.swing.JTextField resEspanolp5;
+    private javax.swing.JTextField resEspanolp6;
+    private javax.swing.JTextField resEspanolp9;
+    private javax.swing.JCheckBox simbiosis;
+    private javax.swing.JCheckBox simil;
     private javax.swing.JTabbedPane tabla_panel;
+    private javax.swing.JCheckBox transitivo;
+    private javax.swing.JCheckBox tundra;
     // End of variables declaration//GEN-END:variables
+
+
 }
