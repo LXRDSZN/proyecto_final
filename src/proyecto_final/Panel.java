@@ -54,7 +54,7 @@ private int horasEcosistemas = 0, minutosEcosistemas = 0, segundosEcosistemas = 
     public Panel() {
         inicializarTimers();
         initComponents();
-        // Asegúrate de inicializar el modeloLista en el constructor
+        // inicializar el modeloLista en el constructor
         modeloLista = new DefaultListModel<>();
         jList1.setModel(modeloLista);  // Asignar el modelo al JList
 
